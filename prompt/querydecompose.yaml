@@ -1,0 +1,88 @@
+[INST] <<SYS>>
+<</SYS>>
+{instruction}
+Given a question, decompose it step by step into smaller components until it is broken down into unit queries that can be directly answered without further reasoning or decomposition. A unit query is a question that cannot be divided further and can be answered directly. If the given question is already a unit query, no decomposition is needed(If a question can still be further broken down, it must be divided into at least $two or more sub-questions$. Otherwise, the question is considered a unit query.). Your output should only include the tree structure of the decomposed question, with sub-questions indented using "-", and no additional content should be provided, just the tree structure. The format for the decomposition tree is as follows:
+### decomposition tree format ###
+question
+-sub-question
+--sub-sub-question
+---sub-sub-sub-question
+---sub-sub-sub-question
+--sub-sub-question
+-sub-question
+### decomposition tree format ###
+I will provide examples, please complete your task after reviewing them.
+{/instruction}
+{demonstrations}
+### Example 1:
+input: What is the name of the scientist who developed the theory that explains why objects fall to Earth?
+output:
+What is the name of the scientist who developed the theory that explains why objects fall to Earth?
+-What is the theory that explains why objects fall to Earth?
+--Is there a theory for why objects fall to Earth?
+--What is the name of this theory?
+-Who developed this theory?
+--Is this theory associated with a specific scientist?
+--What is the name of this scientist?
+### Example 2:
+input: 
+What type of energy powers the device invented by Thomas Edison that produces light?
+output:
+What type of energy powers the device invented by Thomas Edison that produces light?
+-What device produces light and was invented by Thomas Edison?
+--Who is Thomas Edison?
+--What devices did Thomas Edison invent?
+--Is there a device invented by Thomas Edison that produces light?
+--What is the name of this device?
+-What type of energy powers this device?
+--What is energy in this context?
+--What is the primary mechanism or process that allows this device to produce light?
+--What type of energy drives this mechanism?
+### Example 3:
+input: 
+What inspired the author of the book "1984" to write it?
+output:
+What inspired the author of the book "1984" to write it?
+-Who is the author of the book "1984"?
+--What is the book "1984"?
+--Who wrote the book "1984"?
+-What inspired this author to write "1984"?
+--What was happening during the time this author wrote "1984"?
+--What personal experiences influenced the author?
+--What political or social events might have inspired the author?
+--Did any other books or ideas inspire the author?
+### Example 4:
+input: 
+What is the atomic number of the element discovered in the laboratory where the youngest Nobel Physics laureate worked?
+output:
+What is the atomic number of the element discovered in the laboratory where the youngest Nobel Physics laureate worked?
+-Who is the youngest Nobel Physics laureate?
+--When did this person win the Nobel Prize?
+--What was their age at the time of the award?
+-Where did this laureate work?
+--Did this laureate work in laboratory/institution?
+--what's the name of the laboratory/institution?
+-Was any chemical element discovered at this laboratory?
+--What is the name of the element?
+--What is its atomic number?
+### Example 5:
+input:
+Which country hosted the sporting event where the first female gold medalist in track and field competed?
+output:
+Which country hosted the sporting event where the first female gold medalist in track and field competed?
+-What type of sporting event is being referred to (e.g., Olympics)?
+-Who was the first female gold medalist in track and field?
+--What is track and field?
+--Which female athlete won the first gold medal in this category?
+-In which event within track and field did she win?
+-Which country hosted this sporting event?
+{/demonstrations}
+### Your Turn
+input:
+Lou Seal is the mascot for the team that last won the World Series when?
+-Which team does Lou Seal represent?
+--What is Lou Seal's role as a mascot?
+-When did this team last win the World Series?
+--What year did this team last win the World Series?
+--Who did this team play against in the last World Series they won?
+[/INST]

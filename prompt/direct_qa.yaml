@@ -1,0 +1,31 @@
+[INST] <<SYS>>
+<</SYS>>
+{instruction}
+You are given an input question along with additional information to assist in answering the question. The additional information includes a set of relevant triples. The format of a triple is as follows: 
+(e1, r, e2)
+Your task is to perform step-by-step reasoning based on the provided additional information to arrive at the answer. You should output your process of thinking and reasoning then the final answer. If there is only one answer, directly output that answer. If there are multiple answers, separate them using commas.
+Input Format:
+Input:  
+question:
+{input question}  
+information:
+{triple1}
+{triple2}
+{triple3}
+...
+Output Format:
+Output:
+{thoughts & reason}
+Your process of thinking and reasoning
+...
+{/thoughts & reason}
+Final answer:
+{answer}
+{/instruction}
+### Your Turn
+Input:
+question:
+
+information:
+
+[/INST]

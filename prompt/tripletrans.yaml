@@ -1,0 +1,54 @@
+[INST] <<SYS>>
+<</SYS>>
+{instruction}
+Given some triples from a knowledge graph, please convert each one into a natural language question. The triple query is formatted as (h, r, ?) and (?, r, t), where "h" represents the head entity and "r" represents the relation and "t" represents the tail entity. The purpose of the query is to identify the set of tail or head entities connected to "h" or "t" through the relation "r". Your task is to transform this query into a question in natural language form. I will provide you with examples, please complete your task after reviewing them.
+{/instruction}
+{demonstrations}
+### Example 1:
+Triple(s): 
+(Beijing,located in,China),(Eiffel Tower, located in, Paris),(Apple, founded by, Steve Jobs),(Python, created by, Guido van Rossum),(Tesla, CEO of, Elon Musk)
+Natural Language Question: 
+(Beijing,located in,?):Which country does Beijing locate? (?,located in,China):What cities or places are located in China?
+(Eiffel Tower, located in, ?):In which city is the Eiffel Tower located? (?, located in, Paris):What landmarks or places are located in Paris?
+(Apple, founded by, ?):Who founded Apple? (?, founded by, Steve Jobs):Which companies or organizations were founded by Steve Jobs?
+(Python, created by, ?):Who created Python? (?, created by, Guido van Rossum):What programming languages or projects were created by Guido van Rossum?
+(Tesla, CEO of, ?):Who is the CEO of Tesla? (?, CEO of, Elon Musk):Which companies or organizations have Elon Musk as their CEO?
+### Example 2:
+Triple(s):
+(Shakespeare, wrote, Hamlet),(Titanic, sank in, Atlantic Ocean),(New York City, located in, United States),(Harry Potter, written by, J.K. Rowling),(Thomas Edison, invented, Light Bulb),(Amazon River, flows through, Brazil),(Mars, known as, Red Planet),(Einstein, won, Nobel Prize),(Venus, closest planet to, Earth),(Cheetah, fastest animal, on land),(Pluto, classified as, dwarf planet),(Tokyo, largest city, in Japan),(The Sahara Desert, located in, Africa)
+Natural Language Question:
+(Shakespeare, wrote, ?):What did Shakespeare write? (?, wrote, Hamlet):Who wrote Hamlet?
+(Titanic, sank in, ?):Where did the Titanic sink? (?, sank in, Atlantic Ocean):What sank in the Atlantic Ocean?
+(New York City, located in, ?):Where is New York City located? (?, located in, United States):What cities or places are located in the United States?
+(Harry Potter, written by, ?):Who wrote Harry Potter? (?, written by, J.K. Rowling):What books or series were written by J.K. Rowling?
+(Thomas Edison, invented, ?):What did Thomas Edison invent? (?, invented, Light Bulb):Who invented the light bulb?
+(Amazon River, flows through, ?):Through which country does the Amazon River flow? (?, flows through, Brazil):Which rivers flow through Brazil?
+(Mars, known as, ?):What is Mars known as? (?, known as, Red Planet):Which celestial bodies are known as the Red Planet?
+(Einstein, won, ?):What did Einstein win? (?, won, Nobel Prize):Who won the Nobel Prize?
+(Venus, closest planet to, ?):Which planet is closest to Earth? (?, closest planet to, Earth):Which planets are closest to Earth?
+(Cheetah, fastest animal, ?):What is the fastest animal? (?, fastest animal, on land):Which animals are the fastest on land?
+(Pluto, classified as, ?):How is Pluto classified? (?, classified as, dwarf planet):Which celestial bodies are classified as dwarf planets?
+(Tokyo, largest city, ?):Which city is the largest in Japan? (?, largest city, in Japan):Which cities are the largest in Japan?
+(The Sahara Desert, located in, ?):Where is The Sahara Desert located? (?, located in, Africa):What deserts or regions are located in Africa?
+### Example 3:
+Triple(s):
+(The Great Pyramid of Giza, located in, Egypt),(The Eiffel Tower, built in, 1889),(Isaac Newton, discovered, Law of Gravity),(Rome, capital of, Italy),(The Taj Mahal, built by, Shah Jahan),(The Moon, orbits around, Earth),(Beethoven, composed, Symphony No. 9),(Tesla, produces, Electric Cars),(Galileo, known as, Father of Modern Astronomy),(Nelson Mandela, first president of, South Africa),(Mount Kilimanjaro, located in, Tanzania),(Alexander Graham Bell, invented, Telephone)
+Natural Language Question:
+(The Great Pyramid of Giza, located in, ?):Where is The Great Pyramid of Giza located? (?, located in, Egypt):What landmarks or places are located in Egypt?
+(The Eiffel Tower, built in, ?):In which year was The Eiffel Tower built? (?, built in, 1889):What structures were built in 1889?
+(Isaac Newton, discovered, ?):What did Isaac Newton discover? (?, discovered, Law of Gravity):Who discovered the Law of Gravity?
+(Rome, capital of, ?):What country is Rome the capital of? (?, capital of, Italy):Which cities are the capitals of Italy?
+(The Taj Mahal, built by, ?):Who built The Taj Mahal? (?, built by, Shah Jahan):What other structures were built by Shah Jahan?
+(The Moon, orbits around, ?):What does The Moon orbit around? (?, orbits around, Earth):Which celestial bodies orbit around Earth?
+(Beethoven, composed, ?):What did Beethoven compose? (?, composed, Symphony No. 9):Who composed Symphony No. 9?
+(Tesla, produces, ?):What does Tesla produce? (?, produces, Electric Cars):Which products are produced by Tesla?
+(Galileo, known as, ?):What is Galileo known as? (?, known as, Father of Modern Astronomy):Which historical figures are known as the Father of Modern Astronomy?
+(Nelson Mandela, first president of, ?):Which country was Nelson Mandela the first president of? (?, first president of, South Africa):Who were the first presidents of South Africa?
+(Mount Kilimanjaro, located in, ?):Where is Mount Kilimanjaro located? (?, located in, Tanzania):What mountains or regions are located in Tanzania?
+(Alexander Graham Bell, invented, ?):What did Alexander Graham Bell invent? (?, invented, Telephone):Who invented the telephone?
+{/demonstrations}
+### Your Turn
+input:
+
+[/INST]
+

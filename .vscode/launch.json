@@ -1,0 +1,53 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Run",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "run.py",  // 替换成你的主脚本路径
+            "console": "integratedTerminal",
+            "args": [
+                "-d", "webqsp",
+                "--embedding_model", "sentence-transformers",
+                "--llm", "gpt4o-mini",
+                "--task", "direct_qa",
+                "--eval_top_k", "-1",
+                "--pruning_top_k", "750"
+            ]
+        },
+        {
+            "name": "Python kge train",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/graph_eval/kg_embedding.py",
+            "console": "integratedTerminal",
+            "args": [
+                "sudo"
+            ]
+        },
+        {
+            "name": "Python semantic score",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/graph_eval/score_semantic.py",
+            "console": "integratedTerminal",
+            "args": [
+                "sudo"
+            ]
+        },
+        {
+            "name": "Python prune",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "prune.py",
+            "console": "integratedTerminal",
+            "args": [
+                "sudo"
+            ]
+        }
+    ]
+}
