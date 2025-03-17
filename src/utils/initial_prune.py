@@ -67,7 +67,7 @@ def initial_prune(dataset_name = "webqsp",initial_pruning_llm = "sentence-transf
     model = SentenceTransformer("/Users/jiangtong/KnowledgeEnrich/project/sentence-transformers",device=device)
 
     print(f"以下为{dataset_name}数据集初步剪枝前的覆盖率信息:")
-    check_answer_in_graph_main(dataset=dataset)
+    check_answer_in_graph_main(dataset=dataset,task="initial_pruning")
 
     filtered_graph = {}
     for sample in tqdm(dataset["test"],desc="预剪枝"):
@@ -133,7 +133,7 @@ def initial_prune(dataset_name = "webqsp",initial_pruning_llm = "sentence-transf
     print("初步剪枝后三元组总数量:",pruned_subgraph_total_length)
     print("二者比率:",pruned_subgraph_total_length/subgraph_total_length)
     print(f"以下为{dataset_name}数据集剪枝后的覆盖率信息:")
-    check_answer_in_graph_main(dataset=dataset)
+    check_answer_in_graph_main(dataset=dataset,task="initial_pruning")
 
     # 保存文件,最终输出文件的名称命名为{dataset_name}_{llm}_{topk}_{initial_pruning}
     dataset["test"].to_parquet(f"preprocess_datasets/initial_pruning_datasets/{dataset_name}_{initial_pruning_llm}_{initial_pruning_topk}_initial_pruning.parquet")

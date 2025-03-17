@@ -3,8 +3,8 @@ from datasets import load_dataset
 def write_to_file(top_k_samples, file_name="view_data_result.txt"):
     """
     将前 k 个样本写入文件。
-    :param top_k_samples: list，包含前 k 个样本的字典
-    :param file_name: str，写入的文件路径
+    :param top_k_samples: list,包含前 k 个样本的字典
+    :param file_name: str,写入的文件路径
     """
     # 将字典内容转换为字符串形式（比如 JSON 格式）
     import json
@@ -17,7 +17,7 @@ def write_to_file(top_k_samples, file_name="view_data_result.txt"):
 # 加载数据集
 dataset = load_dataset(
     "parquet", 
-    data_files={'test': '/Users/jiangtong/KnowledgeEnrich/project/preprocess_datasets/initial_pruning_datasets/webqsp_sentence-transformers_750_initial_pruning.parquet'}
+    data_files={'test': '/Users/jiangtong/KnowledgeEnrich/project/preprocess_datasets/triple_trans_datasets/webqsp_gpt4o-mini_triple_trans.parquet'}
 )
 
 # 访问测试集
@@ -26,7 +26,7 @@ test_dataset = dataset['test']
 print("该数据集信息:", test_dataset)
 
 # 访问前 top_k 个样本
-top_k = 5
+top_k = 10
 top_k_samples = [test_dataset[i] for i in range(top_k)]
 
 write_path = "/Users/jiangtong/KnowledgeEnrich/project/view_data_result.txt"

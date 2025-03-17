@@ -2,10 +2,10 @@
 # 输入:dataset
 from datasets import load_dataset
 
-def check_answer_in_graph(sample):
+def check_answer_in_graph(sample,graph_name="graph"):
     # 获取 answer 列表和 graph
     answers = sample["answer"]  # 假设 sample["answer"] 是一个列表
-    graph = sample["graph"]
+    graph = sample[graph_name]
 
     # 计数器，用于统计存在的答案个数
     match_count = 0
@@ -21,11 +21,15 @@ def check_answer_in_graph(sample):
 
     return match_count
 
-def check_answer_in_graph_main(dataset):
+def check_answer_in_graph_main(dataset,task="llm_pruning"):
     exist_number = 0
     total_number = 0
+    if task == "llm_pruning":
+        graph_name = "pruned_graph"
+    else:
+        graph_name = "graph"
     for sample in dataset["test"]:
-        is_exist = check_answer_in_graph(sample)
+        is_exist = check_answer_in_graph(sample,graph_name=graph_name)
         exist_number = exist_number + is_exist
         total_number = total_number + len(sample["answer"])
     

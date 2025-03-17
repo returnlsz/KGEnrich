@@ -5,50 +5,56 @@ Given some triples from a knowledge graph, please convert each one into a natura
 {/instruction}
 {demonstrations}
 ### Example 1:
+Input:
 Triple(s): 
 (Beijing,located in,China),(Eiffel Tower, located in, Paris),(Apple, founded by, Steve Jobs),(Python, created by, Guido van Rossum),(Tesla, CEO of, Elon Musk)
-Natural Language Question: 
-(Beijing,located in,?):Which country does Beijing locate? (?,located in,China):What cities or places are located in China?
-(Eiffel Tower, located in, ?):In which city is the Eiffel Tower located? (?, located in, Paris):What landmarks or places are located in Paris?
-(Apple, founded by, ?):Who founded Apple? (?, founded by, Steve Jobs):Which companies or organizations were founded by Steve Jobs?
-(Python, created by, ?):Who created Python? (?, created by, Guido van Rossum):What programming languages or projects were created by Guido van Rossum?
-(Tesla, CEO of, ?):Who is the CEO of Tesla? (?, CEO of, Elon Musk):Which companies or organizations have Elon Musk as their CEO?
+Output:
+Natural Language Question:
+(Beijing,located in,China)<SEP>Which country does Beijing locate?<SEP>What cities or places are located in China?
+(Eiffel Tower, located in, Paris)<SEP>In which city is the Eiffel Tower located?<SEP>What landmarks or places are located in Paris?
+(Apple, founded by, Steve Jobs)<SEP>Who founded Apple?<SEP>Which companies or organizations were founded by Steve Jobs?
+(Python, created by, Guido van Rossum)<SEP>Who created Python?<SEP>What programming languages or projects were created by Guido van Rossum?
+(Tesla, CEO of, Elon Musk)<SEP>Who is the CEO of Tesla?<SEP>Which companies or organizations have Elon Musk as their CEO?
 ### Example 2:
+Input:
 Triple(s):
 (Shakespeare, wrote, Hamlet),(Titanic, sank in, Atlantic Ocean),(New York City, located in, United States),(Harry Potter, written by, J.K. Rowling),(Thomas Edison, invented, Light Bulb),(Amazon River, flows through, Brazil),(Mars, known as, Red Planet),(Einstein, won, Nobel Prize),(Venus, closest planet to, Earth),(Cheetah, fastest animal, on land),(Pluto, classified as, dwarf planet),(Tokyo, largest city, in Japan),(The Sahara Desert, located in, Africa)
+Output:
 Natural Language Question:
-(Shakespeare, wrote, ?):What did Shakespeare write? (?, wrote, Hamlet):Who wrote Hamlet?
-(Titanic, sank in, ?):Where did the Titanic sink? (?, sank in, Atlantic Ocean):What sank in the Atlantic Ocean?
-(New York City, located in, ?):Where is New York City located? (?, located in, United States):What cities or places are located in the United States?
-(Harry Potter, written by, ?):Who wrote Harry Potter? (?, written by, J.K. Rowling):What books or series were written by J.K. Rowling?
-(Thomas Edison, invented, ?):What did Thomas Edison invent? (?, invented, Light Bulb):Who invented the light bulb?
-(Amazon River, flows through, ?):Through which country does the Amazon River flow? (?, flows through, Brazil):Which rivers flow through Brazil?
-(Mars, known as, ?):What is Mars known as? (?, known as, Red Planet):Which celestial bodies are known as the Red Planet?
-(Einstein, won, ?):What did Einstein win? (?, won, Nobel Prize):Who won the Nobel Prize?
-(Venus, closest planet to, ?):Which planet is closest to Earth? (?, closest planet to, Earth):Which planets are closest to Earth?
-(Cheetah, fastest animal, ?):What is the fastest animal? (?, fastest animal, on land):Which animals are the fastest on land?
-(Pluto, classified as, ?):How is Pluto classified? (?, classified as, dwarf planet):Which celestial bodies are classified as dwarf planets?
-(Tokyo, largest city, ?):Which city is the largest in Japan? (?, largest city, in Japan):Which cities are the largest in Japan?
-(The Sahara Desert, located in, ?):Where is The Sahara Desert located? (?, located in, Africa):What deserts or regions are located in Africa?
+(Shakespeare, wrote, Hamlet)<SEP>What did Shakespeare write?<SEP>Who wrote Hamlet?
+(Titanic, sank in, Atlantic Ocean)<SEP>Where did the Titanic sink?<SEP>What sank in the Atlantic Ocean?
+(New York City, located in, United States)<SEP>Where is New York City located?<SEP>What cities or places are located in the United States?
+(Harry Potter, written by, J.K. Rowling)<SEP>Who wrote Harry Potter?<SEP>What books or series were written by J.K. Rowling?
+(Thomas Edison, invented, Light Bulb)<SEP>What did Thomas Edison invent?<SEP>Who invented the light bulb?
+(Amazon River, flows through, Brazil)<SEP>Through which country does the Amazon River flow?<SEP>Which rivers flow through Brazil?
+(Mars, known as, Red Planet)<SEP>What is Mars known as?<SEP>Which celestial bodies are known as the Red Planet?
+(Einstein, won, Nobel Prize)<SEP>What did Einstein win?<SEP>Who won the Nobel Prize?
+(Venus, closest planet to, Earth)<SEP>Which planet is closest to Earth?<SEP>Which planets are closest to Earth?
+(Cheetah, fastest animal, on land)<SEP>What is the fastest animal?<SEP>Which animals are the fastest on land?
+(Pluto, classified as, dwarf planet)<SEP>How is Pluto classified?<SEP>Which celestial bodies are classified as dwarf planets?
+(Tokyo, largest city, in Japan)<SEP>Which city is the largest in Japan?<SEP>Which cities are the largest in Japan?
+(The Sahara Desert, located in, Africa)<SEP>Where is The Sahara Desert located?<SEP>What deserts or regions are located in Africa?
 ### Example 3:
+Input:
 Triple(s):
 (The Great Pyramid of Giza, located in, Egypt),(The Eiffel Tower, built in, 1889),(Isaac Newton, discovered, Law of Gravity),(Rome, capital of, Italy),(The Taj Mahal, built by, Shah Jahan),(The Moon, orbits around, Earth),(Beethoven, composed, Symphony No. 9),(Tesla, produces, Electric Cars),(Galileo, known as, Father of Modern Astronomy),(Nelson Mandela, first president of, South Africa),(Mount Kilimanjaro, located in, Tanzania),(Alexander Graham Bell, invented, Telephone)
+Output:
 Natural Language Question:
-(The Great Pyramid of Giza, located in, ?):Where is The Great Pyramid of Giza located? (?, located in, Egypt):What landmarks or places are located in Egypt?
-(The Eiffel Tower, built in, ?):In which year was The Eiffel Tower built? (?, built in, 1889):What structures were built in 1889?
-(Isaac Newton, discovered, ?):What did Isaac Newton discover? (?, discovered, Law of Gravity):Who discovered the Law of Gravity?
-(Rome, capital of, ?):What country is Rome the capital of? (?, capital of, Italy):Which cities are the capitals of Italy?
-(The Taj Mahal, built by, ?):Who built The Taj Mahal? (?, built by, Shah Jahan):What other structures were built by Shah Jahan?
-(The Moon, orbits around, ?):What does The Moon orbit around? (?, orbits around, Earth):Which celestial bodies orbit around Earth?
-(Beethoven, composed, ?):What did Beethoven compose? (?, composed, Symphony No. 9):Who composed Symphony No. 9?
-(Tesla, produces, ?):What does Tesla produce? (?, produces, Electric Cars):Which products are produced by Tesla?
-(Galileo, known as, ?):What is Galileo known as? (?, known as, Father of Modern Astronomy):Which historical figures are known as the Father of Modern Astronomy?
-(Nelson Mandela, first president of, ?):Which country was Nelson Mandela the first president of? (?, first president of, South Africa):Who were the first presidents of South Africa?
-(Mount Kilimanjaro, located in, ?):Where is Mount Kilimanjaro located? (?, located in, Tanzania):What mountains or regions are located in Tanzania?
-(Alexander Graham Bell, invented, ?):What did Alexander Graham Bell invent? (?, invented, Telephone):Who invented the telephone?
+(The Great Pyramid of Giza, located in, Egypt)<SEP>Where is The Great Pyramid of Giza located?<SEP>What landmarks or places are located in Egypt?
+(The Eiffel Tower, built in, 1889)<SEP>In which year was The Eiffel Tower built?<SEP>What structures were built in 1889?
+(Isaac Newton, discovered, Gravity)<SEP>What did Isaac Newton discover?<SEP>Who discovered the Law of Gravity?
+(Rome, capital of, Italy)<SEP>What country is Rome the capital of?<SEP>Which cities are the capitals of Italy?
+(The Taj Mahal, built by, Shah Jahan)<SEP>Who built The Taj Mahal?<SEP>What other structures were built by Shah Jahan?
+(The Moon, orbits around, Earth)<SEP>What does The Moon orbit around?<SEP>Which celestial bodies orbit around Earth?
+(Beethoven, composed, Symphony No. 9)<SEP>What did Beethoven compose?<SEP>Who composed Symphony No. 9?
+(Tesla, produces, Electric Cars)<SEP>What does Tesla produce?<SEP>Which products are produced by Tesla?
+(Galileo, known as, Father of Modern Astronomy)<SEP>What is Galileo known as?<SEP>Which historical figures are known as the Father of Modern Astronomy?
+(Nelson Mandela, first president of, South Africa)<SEP>Which country was Nelson Mandela the first president of?<SEP>Who were the first presidents of South Africa?
+(Mount Kilimanjaro, located in, Tanzania)<SEP>Where is Mount Kilimanjaro located?<SEP>What mountains or regions are located in Tanzania?
+(Alexander Graham Bell, invented, Telephone)<SEP>What did Alexander Graham Bell invent?<SEP>Who invented the telephone?
 {/demonstrations}
 ### Your Turn
-input:
+Input:
 
 [/INST]
 

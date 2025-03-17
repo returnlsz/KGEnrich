@@ -15,8 +15,9 @@ I will provide examples, please complete your task after reviewing them.
 {/instruction}
 {demonstrations}
 ### Example 1:
-input: What is the name of the scientist who developed the theory that explains why objects fall to Earth?
-output:
+Input:
+What is the name of the scientist who developed the theory that explains why objects fall to Earth?
+Output:
 What is the name of the scientist who developed the theory that explains why objects fall to Earth?
 -What is the theory that explains why objects fall to Earth?
 --Is there a theory for why objects fall to Earth?
@@ -25,9 +26,9 @@ What is the name of the scientist who developed the theory that explains why obj
 --Is this theory associated with a specific scientist?
 --What is the name of this scientist?
 ### Example 2:
-input: 
+Input:
 What type of energy powers the device invented by Thomas Edison that produces light?
-output:
+Output:
 What type of energy powers the device invented by Thomas Edison that produces light?
 -What device produces light and was invented by Thomas Edison?
 --Who is Thomas Edison?
@@ -39,9 +40,9 @@ What type of energy powers the device invented by Thomas Edison that produces li
 --What is the primary mechanism or process that allows this device to produce light?
 --What type of energy drives this mechanism?
 ### Example 3:
-input: 
+Input:
 What inspired the author of the book "1984" to write it?
-output:
+Output:
 What inspired the author of the book "1984" to write it?
 -Who is the author of the book "1984"?
 --What is the book "1984"?
@@ -52,9 +53,9 @@ What inspired the author of the book "1984" to write it?
 --What political or social events might have inspired the author?
 --Did any other books or ideas inspire the author?
 ### Example 4:
-input: 
+Input:
 What is the atomic number of the element discovered in the laboratory where the youngest Nobel Physics laureate worked?
-output:
+Output:
 What is the atomic number of the element discovered in the laboratory where the youngest Nobel Physics laureate worked?
 -Who is the youngest Nobel Physics laureate?
 --When did this person win the Nobel Prize?
@@ -66,9 +67,9 @@ What is the atomic number of the element discovered in the laboratory where the 
 --What is the name of the element?
 --What is its atomic number?
 ### Example 5:
-input:
+Input:
 Which country hosted the sporting event where the first female gold medalist in track and field competed?
-output:
+Output:
 Which country hosted the sporting event where the first female gold medalist in track and field competed?
 -What type of sporting event is being referred to (e.g., Olympics)?
 -Who was the first female gold medalist in track and field?
@@ -78,7 +79,7 @@ Which country hosted the sporting event where the first female gold medalist in 
 -Which country hosted this sporting event?
 {/demonstrations}
 ### Your Turn
-input:
+Input:
 Lou Seal is the mascot for the team that last won the World Series when?
 -Which team does Lou Seal represent?
 --What is Lou Seal's role as a mascot?

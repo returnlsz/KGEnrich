@@ -7,8 +7,15 @@ from datasets import load_dataset
 from llm.prompt_builder import *
 from llm.llm_client import *
 from tqdm import tqdm
+import pandas as pd
+from datasets import Dataset, DatasetDict
+import asyncio
+from tqdm.asyncio import tqdm_asyncio
 
-def llm_trans_triple(dataset_name=None,llm=None):
+def llm_trans_triple_main(dataset_name=None,llm=None,initial_pruning_llm="sentence-transformers",initial_pruning_topk=750,llm_pruning_top_k=100):
+    return asyncio.run(llm_trans_triple(dataset_name,llm,initial_pruning_llm,initial_pruning_topk,llm_pruning_top_k))
+
+async def llm_trans_triple(dataset_name=None,llm=None,initial_pruning_llm="sentence-transformers",initial_pruning_topk=750,llm_pruning_top_k=100):
     # step 0
     # 从parquet文件中加载数据集，并把数据集组织成一个list-dict,dict的字段如下:
     # id
@@ -21,14 +28,53 @@ def llm_trans_triple(dataset_name=None,llm=None):
 
     ###############################################################################################################
     # 加载路径
-    data_dir = '/Users/jiangtong/KnowledgeEnrich/project/preprocess_datasets/question_decompose_datasets'
+    data_dir = '/Users/jiangtong/KnowledgeEnrich/project/preprocess_datasets/llm_pruning_dataset'
 
-    decompose_question_dataset = load_dataset("parquet", data_files={'test': f'{data_dir}/{dataset_name}_{llm}_question_decompose.parquet.parquet'})
+    dataset = load_dataset("parquet", data_files={'test': f'{data_dir}/{dataset_name}_{llm}_{initial_pruning_llm}_{initial_pruning_topk}_{llm_pruning_top_k}_llm_pruning.parquet'})
 
+    # dataset = load_dataset("parquet", data_files={'test': f'{data_dir}/{dataset_name}_{llm}_question_decompose.parquet'})
     # data_dir = '/Users/jiangtong/KnowledgeEnrich/project/'
-
     # 打印数据集的信息
-    print(decompose_question_dataset)
+    print(dataset)
+
+    # 保存文件,最终输出文件的名称命名为{dataset_name}_{llm}_{qa}
+    write_data_dir = f"preprocess_datasets/triple_trans_datasets/{dataset_name}_{llm}_triple_trans.parquet"
+    
+    # 打开该文件,若不存在,则创建
+    # 确保目录存在
+    os.makedirs(os.path.dirname(write_data_dir), exist_ok=True)
+
+    triple_trans_dataset = None
+    finished_id = []
+
+    # 检查文件是否存在，如果不存在，则创建文件
+    if not os.path.exists(write_data_dir):
+        # 如果文件不存在，创建一个空的 DataFrame 并保存为 parquet 文件
+        df = pd.DataFrame()  # 创建空 DataFrame
+        df.to_parquet(write_data_dir)
+        print(f"文件不存在，已创建新的空文件：{write_data_dir}")
+        # 初始化dataset
+        triple_trans_dataset = DatasetDict({
+            "test": Dataset.from_dict({
+                "id": "",
+                "question": "",
+                "user_queries":[],
+                "answer": [],
+                "q_entity": [],
+                "a_entity": [],
+                "graph": [],
+                "pruned_graph": [],
+                "choices": [],
+                "triple_unit_queries":[]
+            })
+        })
+    else:
+        print(f"文件已存在：{write_data_dir},将从该文件继续完成翻译三元组任务")
+        triple_trans_dataset = load_dataset("parquet", data_files={'test': write_data_dir})
+        # 检查已经存在的question_id
+        for sample in triple_trans_dataset["test"]:
+            finished_id.append(sample["id"])
+
 
     ###############################################################################################################
 
@@ -54,17 +100,23 @@ def llm_trans_triple(dataset_name=None,llm=None):
     # q_entity
     # a_entity
     # graph
+    # pruned_graph
     # triple_unit_queries
     # choices
 
-    # 最终输出文件的名称命名为{dataset_name}_{llm}_{triple_unit_queries}
+    # 最终输出文件的名称命名为{dataset_name}_{llm}_{triple_trans}
 
     ###############################################################################################################
 
     # 建立三元组翻译的prompt
+    mode = "triples_trans"
     triples_trans_prompt = {}
-    with tqdm(decompose_question_dataset['test'], desc="Building triple transaction prompts") as pbar:
+    with tqdm(dataset['test'], desc="Building triple transaction prompts") as pbar:
         for each_sample in pbar:
+            # 筛选掉已经完成的sample
+            if each_sample["id"] in finished_id:
+                continue
+
             pbar.set_postfix(current_question=each_sample["question"])
             sub_graph = each_sample["graph"]
             
@@ -76,19 +128,46 @@ def llm_trans_triple(dataset_name=None,llm=None):
             # 用换行符连接每个三元组文本
             sub_graph_text = ",".join(triple_text_list)
 
-            mode = "triples_trans"
             # 调用 PromptBuilder，传入 question
             prompt_builder = PromptBuilder(sub_graph_text,mode)
             triples_trans_prompt[each_sample["id"]] = prompt_builder.build_prompt()
 
     # 调用llm翻译三元组
-    llm_chat = llm_client() 
-    mode = "triples_trans"
+    llm_chat = llm_client()
     triple_queries = {}
-    with tqdm(triples_trans_prompt.items(),desc="Call LLM for triple transaction") as pbar:
-        for question_id,each_triples_trans_prompt in pbar:
-            pbar.set_postfix(current_question=question_id)
-            response = llm_chat.response(each_triples_trans_prompt,mode)
+
+    # await asyncio.gather(*(llm_chat.response(each_triples_trans_prompt,mode) for question_id,each_triples_trans_prompt in triples_trans_prompt.items()))
+    
+    # 将 dataset["test"] 转换为一个以 id 为键的快速检索字典
+    id_to_example_map = {example["id"]: example for example in dataset["test"]}
+
+    # 用于临时存储结果的列表
+    batch_results = []
+    filter_batch_size = 5  # 设置批次大小
+
+    # 定义异步函数，处理单个请求
+    async def process_single_query(llm_chat, question_id, each_triples_trans_prompt, mode):
+        response = await llm_chat.response(each_triples_trans_prompt, mode)
+        return question_id, response
+
+    # 定义异步函数，处理多个请求并按完成顺序处理结果
+    tasks = [
+        process_single_query(llm_chat, question_id, each_triples_trans_prompt, mode)
+        for question_id, each_triples_trans_prompt in triples_trans_prompt.items()
+    ]
+    
+    # 使用 tqdm_asyncio 显示进度条
+    with tqdm_asyncio(desc=f"Call {llm} for triple transaction", total=len(triples_trans_prompt)) as pbar:
+        for future in asyncio.as_completed(tasks):
+            result = await future  # 等待某个任务完成
+            question_id, response = result  # 从返回值解构
+            pbar.update(1)  # 更新进度条
+            print(f"Processed {question_id}: {response}")  # 处理每个任务的结果
+
+    # with tqdm(triples_trans_prompt.items(),desc=f"Call {llm} for triple transaction") as pbar:
+    #     for question_id,each_triples_trans_prompt in pbar:
+    #         pbar.set_postfix(current_question=question_id)
+    #         response = await llm_chat.response(each_triples_trans_prompt,mode)
 
             # 示例response文本
             # response = """Natural Language Question: 
@@ -103,10 +182,10 @@ def llm_trans_triple(dataset_name=None,llm=None):
                 triple_queries = []
                 
                 # 首先查找是否有"Natural Language Question: "
-                start_index = response.find("Natural Language Question: ")
+                start_index = response.find("Natural Language Question:")
                 if start_index != -1:
                     # 如果存在，提取从"Natural Language Question: "开始的内容
-                    response = response[start_index + len("Natural Language Question: "):]
+                    response = response[start_index + len("Natural Language Question:"):]
                 
                 # 按行分割内容
                 lines = response.splitlines()
@@ -118,39 +197,78 @@ def llm_trans_triple(dataset_name=None,llm=None):
                         continue
                     
                     # 找到三元组部分和对应问题的分隔符 ":"
-                    if ":" in line:
-                        part = line.split(":", 2)
-                        if len(part) == 2:
-                            triple_part = part[0]
-                            question_part = part[1]
-                            question_part = question_part.strip()
-                            triple_queries.append(question_part)
-                        else:
-                            triple_part = part[1]
-                            question_part2 = part[2]
-                            question_part = triple_part.split("(", 1)[0]
-                            question_part = question_part.strip()
-                            question_part2 = question_part2.strip()
-                            triple_queries.append([question_part,question_part2])
+                    part = line.split("<SEP>", 2)
+                    if len(part) == 3:
+                        left,right1,right2 = part
+                        triple_queries.append([right1,right2])
+                    else:
+                        left,right = part
+                        triple_queries.append([right])
+                        
+                        # if len(part) == 2:
+                        #     triple_part = part[0]
+                        #     question_part = part[1]
+                        #     question_part = question_part.strip()
+                        #     triple_queries.append(question_part)
+                        # else:
+                        #     triple_part = part[1]
+                        #     question_part2 = part[2]
+                        #     question_part = triple_part.split("(", 1)[0]
+                        #     question_part = question_part.strip()
+                        #     question_part2 = question_part2.strip()
+                        #     triple_queries.append([question_part,question_part2])
                 return triple_queries
             
-            triple_queries[question_id] = extract_triple_queries(response)
+            processed_answer = extract_triple_queries(response)
+            triple_queries[question_id] = processed_answer
+            # 通过 question_id 快速检索对应的记录
+            example = id_to_example_map.get(question_id)
+            if example:
+                # 为 example 添加预测结果
+                example_with_prediction = {**example, "triple_unit_queries": processed_answer}
+                batch_results.append(example_with_prediction)
 
-    print("三元组翻译后的样例:",triple_queries)
+            # 当批量结果达到 filter_batch_size 时，进行一次写入
+            if len(batch_results) >= filter_batch_size:
+                if len(triple_trans_dataset["test"]) == 0:  # 如果 triple_trans_dataset["test"] 是空的
+                    triple_trans_dataset["test"] = Dataset.from_dict({key: [ex[key] for ex in batch_results] for key in batch_results[0]})
+                else:
+                    # 批量合并到现有的 Dataset
+                    triple_trans_dataset["test"] = Dataset.from_dict({
+                        key: triple_trans_dataset["test"][key] + [ex[key] for ex in batch_results]
+                        for key in triple_trans_dataset["test"].column_names
+                    })
+
+                # 写入到文件
+                triple_trans_dataset["test"].to_parquet(write_data_dir)
+                batch_results = []  # 清空临时存储
+
+    # 如果有剩余的结果，写入到文件
+    if batch_results:
+        if len(triple_trans_dataset["test"]) == 0:  # 如果 triple_trans_dataset["test"] 是空的
+            triple_trans_dataset["test"] = Dataset.from_dict({key: [ex[key] for ex in batch_results] for key in batch_results[0]})
+        else:
+            triple_trans_dataset["test"] = Dataset.from_dict({
+                key: triple_trans_dataset["test"][key] + [ex[key] for ex in batch_results]
+                for key in triple_trans_dataset["test"].column_names
+            })
+        triple_trans_dataset["test"].to_parquet(write_data_dir)
+    
+    print(f"完成{dataset_name}数据集的三元组翻译任务!")
+    print("三元组翻译后的样例:",triple_trans_dataset["test"])
 
     # 匹配到原数据集并新增字段triple_unit_queries
-    triple_trans_dataset = decompose_question_dataset
     # 确保每条记录都初始化了 'triple_unit_queries' 列
-    if "triple_unit_queries" not in triple_trans_dataset["test"].column_names:
-        triple_trans_dataset["test"] = triple_trans_dataset["test"].add_column("triple_unit_queries", [None] * len(triple_trans_dataset["test"]))
+    # if "triple_unit_queries" not in triple_trans_dataset["test"].column_names:
+    #     triple_trans_dataset["test"] = triple_trans_dataset["test"].add_column("triple_unit_queries", [None] * len(triple_trans_dataset["test"]))
 
-    with tqdm(triple_queries.items(), desc="Mapping triple transaction to datastes") as pbar:
-        for question_id,each_question_triple_queries in pbar:
-            # 定义一个函数用于修改特定 id 的数据
-            def add_triple_queries(example):
-                if example["id"] == question_id:
-                    example["triple_unit_queries"] = each_question_triple_queries
-                return example
-            triple_trans_dataset["test"] = triple_trans_dataset["test"].map(add_triple_queries)
+    # with tqdm(triple_queries.items(), desc="Mapping triple transaction to datastes") as pbar:
+    #     for question_id,each_question_triple_queries in pbar:
+    #         # 定义一个函数用于修改特定 id 的数据
+    #         def add_triple_queries(example):
+    #             if example["id"] == question_id:
+    #                 example["triple_unit_queries"] = each_question_triple_queries
+    #             return example
+    #         triple_trans_dataset["test"] = triple_trans_dataset["test"].map(add_triple_queries)
 
-    print("三元组翻译后的数据集结构:",triple_trans_dataset)
+    # print("三元组翻译后的数据集结构:",triple_trans_dataset)

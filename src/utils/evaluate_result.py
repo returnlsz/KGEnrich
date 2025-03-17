@@ -3,10 +3,12 @@ import json
 import re 
 import string
 from sklearn.metrics import precision_score
+from datasets import load_dataset
 
 def normalize(s: str) -> str:
     """Lower text and remove punctuation, articles and extra whitespace."""
     s = s.lower()
+    # 把特殊符号都去掉"!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~"
     exclude = set(string.punctuation)
     s = "".join(char for char in s if char not in exclude)
     s = re.sub(r"\b(a|an|the)\b", " ", s)
@@ -63,7 +65,9 @@ def extract_topk_prediction(prediction, k=-1):
 
 def eval_result(dataset_name, cal_f1=True, topk = -1,llm=None):
     # 定义输入文件的路径
-    qa_file = f"/Users/jiangtong/KnowledgeEnrich/project/preprocess_datasets/qa_datasets/{dataset_name}_{llm}_qa.parquet"
+    qa_file = "/Users/jiangtong/KnowledgeEnrich/project/preprocess_datasets/qa_datasets/webqsp_gpt4o-mini_direct_qa_2025-03-15_21-08-12.parquet"
+    qa_file = "/Users/jiangtong/KnowledgeEnrich/project/preprocess_datasets/qa_datasets/cwq_gpt4o-mini_direct_qa_2025-03-15_20-54-51.parquet"
+    # qa_file = f"/Users/jiangtong/KnowledgeEnrich/project/preprocess_datasets/qa_datasets/{dataset_name}_{llm}_qa.parquet"
     detailed_eval_file = f"/Users/jiangtong/KnowledgeEnrich/project/result/predictions_eval/{dataset_name}_{llm}_predictions.jsonl"
 
     # Load results
@@ -72,17 +76,25 @@ def eval_result(dataset_name, cal_f1=True, topk = -1,llm=None):
     f1_list = []
     precission_list = []
     recall_list = []
-    with open(qa_file, 'r') as f, open(detailed_eval_file, 'w') as f2:
-        for line in f:
-            try:
-                data = json.loads(line)
-            except:
-                print(line)
-                continue
-            id = data['id']
-            prediction = data['prediction']
+    with open(detailed_eval_file, 'w') as f2:
+        # 加载路径
+        data_dir = '/Users/jiangtong/KnowledgeEnrich/project/preprocess_datasets/qa_datasets'
+        dataset = load_dataset("parquet", data_files={'test': f'{data_dir}/cwq_gpt4o-mini_direct_qa_2025-03-16_18-12-41.parquet'})
+        for data in dataset["test"]:
+            id = data["id"]
+            prediction = data['predictions']
             # 可能需要换成answer字段
-            answer = data['ground_truth']
+            answer = data['answer']
+        # for line in f:
+        #     try:
+        #         data = json.loads(line)
+        #     except:
+        #         print(line)
+        #         continue
+        #     id = data['id']
+        #     prediction = data['predictions']
+        #     # 可能需要换成answer字段
+        #     answer = data['answer']
             if cal_f1:
                 if not isinstance(prediction, list):
                     prediction = prediction.split("\n")
@@ -97,13 +109,13 @@ def eval_result(dataset_name, cal_f1=True, topk = -1,llm=None):
                 hit = eval_hit(prediction_str, answer)
                 acc_list.append(acc)
                 hit_list.append(hit)
-                f2.write(json.dumps({'id': id, 'prediction': prediction, 'ground_truth': answer, 'acc': acc, 'hit': hit, 'f1': f1_score, 'precission': precision_score, 'recall': recall_score}) + '\n')
+                f2.write(json.dumps({'id': id, 'predictions': prediction, 'answer': answer, 'acc': acc, 'hit': hit, 'f1': f1_score, 'precission': precision_score, 'recall': recall_score}) + '\n')
             else:
                 acc = eval_acc(prediction, answer)
                 hit = eval_hit(prediction, answer)
                 acc_list.append(acc)
                 hit_list.append(hit)
-                f2.write(json.dumps({'id': id, 'prediction': prediction, 'ground_truth': answer, 'acc': acc, 'hit': hit}) + '\n')
+                f2.write(json.dumps({'id': id, 'predictions': prediction, 'answer': answer, 'acc': acc, 'hit': hit}) + '\n')
     
     if len(f1_list) > 0:
         result_str = "Accuracy: " + str(sum(acc_list) * 100 / len(acc_list)) + " Hit: " + str(sum(hit_list) * 100 / len(hit_list)) + " F1: " + str(sum(f1_list) * 100 / len(f1_list)) + " Precision: " + str(sum(precission_list) * 100 / len(precission_list)) + " Recall: " + str(sum(recall_list) * 100 / len(recall_list))
@@ -117,6 +129,6 @@ def eval_result(dataset_name, cal_f1=True, topk = -1,llm=None):
     with open(eval_result_path, 'w') as f:
         f.write(result_str)
 
-def eval_result_main(dataset_name=None,cal_f1=True,top_k=-1):
-    eval_result(dataset_name,cal_f1,top_k)
+def eval_result_main(dataset_name=None,cal_f1=True,top_k=-1,llm=None):
+    eval_result(dataset_name,cal_f1,top_k,llm)
     

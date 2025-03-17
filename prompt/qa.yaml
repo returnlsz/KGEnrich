@@ -20,6 +20,91 @@ Your process of thinking and reasoning
 Final answer:
 {answer}
 {/instruction}
+{demonstrations}
+### Example 1:
+Input:
+what does jamaican people speak?
+information:
+Jamaican Creole English Language language.human_language.region Americas
+Jamaican Creole English Language language.human_language.main_country Jamaica
+Jamaican Creole English Language language.human_language.countries_spoken_in Jamaica
+Jamaican English language.human_language.countries_spoken_in Jamaica
+Jamaican Creole English Language common.topic.notable_types Human Language
+Jamaican English common.topic.notable_types Human Language
+Jamaica location.country.languages_spoken Jamaican English
+Jamaica location.country.official_language Jamaican English
+Jamaica location.country.languages_spoken Jamaican Creole English Language
+Jamaican Creole English Language language.human_language.countries_spoken_in Costa Rica
+Jamaican English base.schemastaging.context_name.pronunciation g.125_kkdgj
+Jamaican English common.topic.notable_for g.1255wtfxx
+Jamaica, Land We Love music.composition.language English Language
+Bahamas location.country.languages_spoken English Language
+Turks and Caicos Islands location.country.languages_spoken English Language
+Output:
+{thoughts & reason}
+To answer the question "what does Jamaican people speak," I need to analyze the provided information about languages spoken in Jamaica. 
+
+From the triples, I see that:
+1. Jamaican Creole English Language is mentioned as a language spoken in Jamaica.
+2. Jamaican English is also listed as a language spoken in Jamaica, and it is noted as the official language of the country.
+3. Both Jamaican Creole English and Jamaican English are categorized under human languages and are associated with Jamaica.
+
+Given this information, it is clear that the primary languages spoken by Jamaican people are Jamaican English and Jamaican Creole English.
+{/thoughts & reason}
+Final answer:
+"Jamaican English","Jamaican Creole English Language"
+### Example 2:
+Input:
+who plays ken barlow in coronation street?
+information:
+Ken Barlow fictional_universe.fictional_character.parents Ida Barlow
+Ken Barlow fictional_universe.fictional_character.parents Frank Barlow
+Ken Barlow fictional_universe.fictional_character.gender Male
+Coronation Street - Season 23 tv.tv_series_season.regular_cast m.0wkd82f
+Coronation Street - Season 27 tv.tv_series_season.regular_cast m.0wkd82f
+Coronation Street - Season 50 tv.tv_series_season.regular_cast m.0wkd82f
+Coronation Street - Season 51 tv.tv_series_season.regular_cast m.0wkd82f
+Coronation Street - Season 53 tv.tv_series_season.regular_cast m.0wkd82f
+Coronation Street - Season 54 tv.tv_series_season.regular_cast m.0wkd82f
+Coronation Street - Season 55 tv.tv_series_season.regular_cast m.0wkd82f
+Coronation Street fictional_universe.tv_series.character Ken Barlow
+Output:
+{thoughts & reason}
+To answer the question "who plays Ken Barlow in Coronation Street," I need to identify the actor associated with the character Ken Barlow in the provided information. 
+
+The information includes various episodes and details about the character Ken Barlow, but it does not explicitly mention the actor's name. However, I can infer that Ken Barlow is a long-standing character in the show "Coronation Street," which has been running for many years. 
+
+Ken Barlow is a significant character in the series, and historically, he has been portrayed by actor William Roache. Given that the information does not contradict this and considering the prominence of the character, it is reasonable to conclude that William Roache is the actor who plays Ken Barlow.
+{/thoughts & reason}
+Final answer:
+"William Roache"
+### Example 3:
+Input:
+where is jamarcus russell from?
+information:
+JaMarcus Russell people.person.place_of_birth Mobile
+Mobile location.location.containedby Alabama
+Mobile location.statistical_region.population g.11x1lghdb
+Mobile location.statistical_region.population m.0hk5bdb
+Mobile location.location.events Battle of Fort Charlotte
+Mobile location.statistical_region.population g.11x1hk9qh
+Mobile location.statistical_region.population g.11x1gs043
+Mobile location.statistical_region.population m.066h8gz
+Mobile location.location.geolocation m.0kb0s6
+Mobile location.statistical_region.population g.11b66g7msm
+Output:
+{thoughts & reason}
+To determine where JaMarcus Russell is from, we can analyze the provided triples. The relevant triple is:
+
+- (JaMarcus Russell, people.person.place_of_birth, Mobile)
+
+This indicates that JaMarcus Russell was born in Mobile.
+
+Since the question specifically asks where he is from, and the information indicates his place of birth, we can conclude that he is from Mobile.
+{/thoughts & reason}
+Final answer:
+"Mobile"
+{/demonstrations}
 ### Your Turn
 Input:
 question:
