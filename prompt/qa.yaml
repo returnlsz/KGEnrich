@@ -1,0 +1,155 @@
+[INST] <<SYS>>
+<</SYS>>
+{instruction}
+You are given an input question along with additional information to assist in answering the question. The additional information includes a set of relevant triples and questions corresponding to each triple. The format of a triple is as follows: 
+(e1, r, e2)
+Your task is to perform step-by-step reasoning based on the provided additional information to arrive at the answer. You should output your process of thinking and reasoning then the final answer. Each answer should be as close to a single entity as possible, rather than a long sentence. Each answer should not be in the form of an ID, such as: "m.0n1v8cy", "m.0jx21d", or similar formats. If the provided information is insufficient to infer the correct answer, please use your internal knowledge to generate a response. Please try to output all possible answers you consider correct. If there is only one answer, directly output that answer. If there are multiple answers, separate them using <SEP>.
+### Input Format ###
+Input:  
+question:
+{input question}  
+information:
+{triple1}
+{triple2}
+{triple3<SEP>query3.1<SEP>query3.2<SEP>query3.3<SEP>...}
+{triple4<SEP>query4.1<SEP>query4.2<SEP>query4.3<SEP>...}
+### Output Format ###
+Output:
+{thoughts & reason}
+Your process of thinking and reasoning
+...
+{/thoughts & reason}
+Final answer:
+{answer}
+{/instruction}
+{demonstrations}
+### Example 1:
+Input:
+who won fedex cup 2012
+information:
+(m.0n1v8cy,  awarded,  FedEx Cup)
+(FedEx Cup,  described_by,  m.08q5wy)
+(FedEx Cup,  recognized_for,  g.12559n8g_)
+(FedEx Cup,  final_standings_for,  2012 PGA Tour)
+(FedEx Cup, Hypernym_isA, Sports Award)
+(FedEx Cup, Induction_belongTo, Golf Championships)
+(m.0n1v8cy, Hypernym_isA, Winner)
+(m.0n1v8cy, Inclusion_isPartOf, 2012 PGA Tour)
+(m.08q5wy, Inclusion_hasContext, FedEx Cup Article)
+(g.12559n8g_, Inclusion_hasContext, FedEx Cup Notable Information)
+(2012 PGA Tour, Hypernym_isA, Sports League Season)
+(FedEx Cup, sports.sports_award_type.winners, m.0n1v8cy)<SEP>who won fedex cup 2012<SEP>Who won the FedEx Cup in 2012
+(FedEx Cup, common.topic.article, m.08q5wy)<SEP>What is the FedEx Cup
+(FedEx Cup, common.topic.notable_for, g.12559n8g_)<SEP>What is the FedEx Cup
+(2012 PGA Tour, sports.sports_league_season.awards, m.0n1v8cy)<SEP>What were the final standings in the FedEx Cup for 2012
+(m.0n1v8cy, sports.sports_award.season, 2012 PGA Tour)<SEP>What were the final standings in the FedEx Cup for 2012
+(Brandt Snedeker, sports.sports_award_winner.awards, m.0n1v8cy)<SEP>What awards has Brandt Snedeker won?<SEP>Who has won the award m.0n1v8cy?
+(FedEx Cup, common.topic.notable_types, Sports League Award Type)<SEP>What notable types are associated with the FedEx Cup?<SEP>What awards are categorized as Sports League Award Type?
+(m.0n1v8cy, sports.sports_award.award_winner, Brandt Snedeker)<SEP>Who is the award winner of m.0n1v8cy?<SEP>What awards has Brandt Snedeker won?
+(m.0n1v8cy, sports.sports_award.award, FedEx Cup)<SEP>What award is associated with m.0n1v8cy?<SEP>What awards are given for the FedEx Cup?
+Output:
+{thoughts & reason}
+To answer the question "who won FedEx Cup 2012," I need to analyze the provided information. 
+
+From the triples, I see that:
+1. The FedEx Cup is awarded to "m.0n1v8cy."
+2. The triple (m.0n1v8cy, awarded, FedEx Cup) confirms that "m.0n1v8cy" is indeed the winner of the FedEx Cup.
+3. There is a specific mention that "Brandt Snedeker" is associated with "m.0n1v8cy" as the award winner of the FedEx Cup.
+
+Thus, I can conclude that Brandt Snedeker is the individual who won the FedEx Cup in 2012.
+Final answer:
+"Brandt Snedeker"
+{/thoughts & reason}
+### Example 2:
+Input:
+who plays knox overstreet
+information:
+(Knox Overstreet,  is_a,  Film character)
+(Film character,  has_character,  Knox Overstreet)
+(Knox Overstreet,  appears_in,  m.0jx21d)
+(Knox Overstreet,  is_played_by,  m.0jx21d)
+(Knox Overstreet,  portrayed_in_character,  m.0jx21d)
+(m.0jx21d,  has_actor,  Josh Charles)
+(Knox Overstreet, Hypernym_isA, Film Character)
+(Knox Overstreet, Induction_belongTo, Fictional Characters)
+(Film character, Hypernym_isA, Character Type)
+(Josh Charles, Hypernym_isA, Actor)
+(Josh Charles, Induction_belongTo, Film Actors)
+(m.0jx21d, Hypernym_isA, Film)
+(m.0jx21d, Inclusion_isPartOf, Filmography of Josh Charles)
+(Knox Overstreet, is_played_by, m.0jx21d)<SEP>who plays knox overstreet
+(m.0jx21d, has_actor, Josh Charles)<SEP>Who portrayed Knox Overstreet<SEP>What is the name of the actor who plays Knox Overstreet
+(Knox Overstreet, portrayed_in_character, m.0jx21d)<SEP>Who is Knox Overstreet<SEP>What is the character Knox Overstreet from<SEP>In which movie or book does Knox Overstreet appear
+(m.0jx21d, film.performance.character, Knox Overstreet)<SEP>who plays knox overstreet
+(m.0jx21d, film.performance.actor, Josh Charles)<SEP>Who portrayed Knox Overstreet<SEP>What is the name of the actor who plays Knox Overstreet
+(Josh Charles, film.actor.film, m.0jx21d)<SEP>What other roles has this actor played
+(Dead Poets Society, film.film.starring, m.0jx21d)<SEP>Who stars in Dead Poets Society?<SEP>What films star m.0jx21d?
+(m.0jx21d, film.performance.film, Dead Poets Society)<SEP>In which film does m.0jx21d perform?<SEP>Which performances are in the film Dead Poets Society?
+Output:
+{thoughts & reason}
+To answer the question "who plays Knox Overstreet," I will analyze the provided information step by step.
+
+1. **Identifying the Character**: The first few triples indicate that Knox Overstreet is a film character. Specifically, the triple (Knox Overstreet, is_played_by, m.0jx21d) suggests that there is a specific entity (m.0jx21d) associated with the portrayal of Knox Overstreet.
+
+2. **Finding the Actor**: The triple (m.0jx21d, has_actor, Josh Charles) directly states that the entity m.0jx21d is associated with the actor Josh Charles. This indicates that Josh Charles is the actor who plays Knox Overstreet.
+
+3. **Confirming the Relationship**: The triple (m.0jx21d, film.performance.actor, Josh Charles) further confirms that Josh Charles is indeed the actor associated with the performance of the character Knox Overstreet in the film.
+
+4. **Final Verification**: The information consistently points to Josh Charles as the actor portraying Knox Overstreet, with multiple triples supporting this conclusion.
+
+Based on this reasoning, the answer to the question is clear.
+
+Final answer:
+Josh Charles
+{/thoughts & reason}
+### Example 3:
+Input:
+what is the official language of brazil now
+information:
+(Brazil,  current_official_language,  Portuguese Language)
+(Portuguese Language,  is_official_language_of,  Brazil)
+(Brazil, Hypernym_isA, Country)
+(Brazil, Inclusion_hasContext, Portuguese Language)
+(Portuguese Language, Hypernym_isA, Language)
+(Portuguese Language, Inclusion_hasContext, Brazil)
+(Brazil, current_official_language, Portuguese Language)<SEP>what is the official language of brazil now<SEP>What is the current official language of Brazil?<SEP>Is there only one official language in Brazil
+(Portuguese Language, is_official_language_of, Brazil)<SEP>what is the official language of brazil now<SEP>What is the current official language of Brazil?<SEP>Is there only one official language in Brazil
+(Brazil, location.country.languages_spoken, Portuguese Language)<SEP>What languages are spoken in Brazil?<SEP>In which countries is Portuguese Language spoken?
+(Portuguese Language, language.human_language.countries_spoken_in, Brazil)<SEP>In which country is Portuguese Language spoken?<SEP>What languages are spoken in Brazil?
+(Brazil, location.country.official_language, Portuguese Language)<SEP>what is the official language of brazil now<SEP>What is the current official language of Brazil?<SEP>Is there only one official language in Brazil
+(Brazil, location.country.languages_spoken, Brazilian Portuguese)<SEP>What languages are spoken in Brazil?<SEP>In which countries is Brazilian Portuguese spoken?
+(Brazilian Portuguese, language.language_dialect.language, Portuguese Language)<SEP>What language is Brazilian Portuguese a dialect of?<SEP>What dialects are associated with Portuguese Language?
+(Brazilian Portuguese, language.human_language.main_country, Brazil)<SEP>Which country is Brazilian Portuguese the main language of?<SEP>What languages are primarily spoken in Brazil?
+(Portuguese Language, language.human_language.dialects, Brazilian Portuguese)<SEP>What dialects are associated with Portuguese Language?<SEP>What languages are dialects of Brazilian Portuguese?
+(Brazilian Portuguese, language.human_language.countries_spoken_in, Brazil)<SEP>In which country is Brazilian Portuguese spoken?<SEP>What languages are spoken in Brazil?
+Output:
+{thoughts & reason}
+To answer the question "what is the official language of Brazil now," I will analyze the provided information. 
+
+From the triples, I see the following relevant ones:
+1. (Brazil, current_official_language, Portuguese Language)
+2. (Portuguese Language, is_official_language_of, Brazil)
+
+These two triples indicate that the current official language of Brazil is Portuguese. 
+
+Additionally, there are other triples that confirm the relationship between Brazil and the Portuguese language, such as:
+- (Brazil, location.country.languages_spoken, Portuguese Language)
+- (Portuguese Language, language.human_language.countries_spoken_in, Brazil)
+
+These further reinforce that Portuguese is the primary language spoken in Brazil.
+
+The question also asks if there is only one official language in Brazil. Based on the information provided, it appears that Portuguese is the only official language mentioned, as no other languages are indicated as official in the triples.
+
+Thus, I conclude that the official language of Brazil is Portuguese, and it seems to be the only official language.
+
+Final answer:
+Portuguese Language
+{/thoughts & reason}
+{/demonstrations}
+### Your Turn
+Input:
+question:
+
+information:
+
+[/INST]

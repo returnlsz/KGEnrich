@@ -1,0 +1,101 @@
+[INST] <<SYS>>
+<</SYS>>
+{instruction}
+Given a list of triples in the format (h, r, t), where h represents the head entity, t represents the tail entity, and r represents the relationship between the head and tail entities, your task is to convert each triple into two natural language triple queries using the following two patterns:
+1. **(h, r, ?):** Mask the tail entity t. Use the head entity h and the relation r as the known information to generate a question.  
+2. **(?, r, t):** Mask the head entity h. Use the tail entity t and the relation r as the known information to generate a question.
+For each triple, the result should include two queries in natural language corresponding to the two patterns.
+### Example:
+Input triple: (Beijing, located in, China)
+Conversion:
+1. Using the pattern (h, r, ?): "Which country does Beijing locate?"  
+2. Using the pattern (?, r, t): "What cities or places are located in China?"
+### Output format:
+For each triple, write the original triple followed by its two generated queries, separated by `<SEP>`. Use one line per triple.
+### Example Output:
+(Beijing, located in, China)<SEP>Which country does Beijing locate?<SEP>What cities or places are located in China?
+Please follow the specified format to generate the output for all provided triples.
+I will provide examples, please complete your task after reviewing them.
+{/instruction}
+{demonstrations}
+### Example 1:
+Input:
+Triple(s): 
+1.(Beijing,located in,China)
+2.(Eiffel Tower, located in, Paris)
+3.(Apple, founded by, Steve Jobs)
+4.(Python, created by, Guido van Rossum)
+5.(Tesla, CEO of, Elon Musk)
+Output:
+Natural Language Question:
+1.(Beijing,located in,China)<SEP>Which country does Beijing locate?<SEP>What cities or places are located in China?
+2.(Eiffel Tower, located in, Paris)<SEP>In which city is the Eiffel Tower located?<SEP>What landmarks or places are located in Paris?
+3.(Apple, founded by, Steve Jobs)<SEP>Who founded Apple?<SEP>Which companies or organizations were founded by Steve Jobs?
+4.(Python, created by, Guido van Rossum)<SEP>Who created Python?<SEP>What programming languages or projects were created by Guido van Rossum?
+5.(Tesla, CEO of, Elon Musk)<SEP>Who is the CEO of Tesla?<SEP>Which companies or organizations have Elon Musk as their CEO?
+### Example 2:
+Input:
+Triple(s):
+1.(Shakespeare, wrote, Hamlet)
+2.(Titanic, sank in, Atlantic Ocean)
+3.(New York City, located in, United States)
+4.(Harry Potter, written by, J.K. Rowling)
+5.(Thomas Edison, invented, Light Bulb)
+6.(Amazon River, flows through, Brazil)
+7.(Mars, known as, Red Planet)
+8.(Einstein, won, Nobel Prize)
+9.(Venus, closest planet to, Earth)
+10.(Cheetah, fastest animal, on land)
+11.(Pluto, classified as, dwarf planet)
+12.(Tokyo, largest city, in Japan)
+13.(The Sahara Desert, located in, Africa)
+Output:
+Natural Language Question:
+1.(Shakespeare, wrote, Hamlet)<SEP>What did Shakespeare write?<SEP>Who wrote Hamlet?
+2.(Titanic, sank in, Atlantic Ocean)<SEP>Where did the Titanic sink?<SEP>What sank in the Atlantic Ocean?
+3.(New York City, located in, United States)<SEP>Where is New York City located?<SEP>What cities or places are located in the United States?
+4.(Harry Potter, written by, J.K. Rowling)<SEP>Who wrote Harry Potter?<SEP>What books or series were written by J.K. Rowling?
+5.(Thomas Edison, invented, Light Bulb)<SEP>What did Thomas Edison invent?<SEP>Who invented the light bulb?
+6.(Amazon River, flows through, Brazil)<SEP>Through which country does the Amazon River flow?<SEP>Which rivers flow through Brazil?
+7.(Mars, known as, Red Planet)<SEP>What is Mars known as?<SEP>Which celestial bodies are known as the Red Planet?
+8.(Einstein, won, Nobel Prize)<SEP>What did Einstein win?<SEP>Who won the Nobel Prize?
+9.(Venus, closest planet to, Earth)<SEP>Which planet is closest to Earth?<SEP>Which planets are closest to Earth?
+10.(Cheetah, fastest animal, on land)<SEP>What is the fastest animal?<SEP>Which animals are the fastest on land?
+11.(Pluto, classified as, dwarf planet)<SEP>How is Pluto classified?<SEP>Which celestial bodies are classified as dwarf planets?
+12.(Tokyo, largest city, in Japan)<SEP>Which city is the largest in Japan?<SEP>Which cities are the largest in Japan?
+13.(The Sahara Desert, located in, Africa)<SEP>Where is The Sahara Desert located?<SEP>What deserts or regions are located in Africa?
+### Example 3:
+Input:
+Triple(s):
+1.(The Great Pyramid of Giza, located in, Egypt)
+2.(The Eiffel Tower, built in, 1889)
+3.(Isaac Newton, discovered, Law of Gravity)
+4.(Rome, capital of, Italy)
+5.(The Taj Mahal, built by, Shah Jahan)
+6.(The Moon, orbits around, Earth)
+7.(Beethoven, composed, Symphony No. 9)
+8.(Tesla, produces, Electric Cars)
+9.(Galileo, known as, Father of Modern Astronomy)
+10.(Nelson Mandela, first president of, South Africa)
+11.(Mount Kilimanjaro, located in, Tanzania)
+12.(Alexander Graham Bell, invented, Telephone)
+Output:
+Natural Language Question:
+1.(The Great Pyramid of Giza, located in, Egypt)<SEP>Where is The Great Pyramid of Giza located?<SEP>What landmarks or places are located in Egypt?
+2.(The Eiffel Tower, built in, 1889)<SEP>In which year was The Eiffel Tower built?<SEP>What structures were built in 1889?
+3.(Isaac Newton, discovered, Gravity)<SEP>What did Isaac Newton discover?<SEP>Who discovered the Law of Gravity?
+4.(Rome, capital of, Italy)<SEP>What country is Rome the capital of?<SEP>Which cities are the capitals of Italy?
+5.(The Taj Mahal, built by, Shah Jahan)<SEP>Who built The Taj Mahal?<SEP>What other structures were built by Shah Jahan?
+6.(The Moon, orbits around, Earth)<SEP>What does The Moon orbit around?<SEP>Which celestial bodies orbit around Earth?
+7.(Beethoven, composed, Symphony No. 9)<SEP>What did Beethoven compose?<SEP>Who composed Symphony No. 9?
+8.(Tesla, produces, Electric Cars)<SEP>What does Tesla produce?<SEP>Which products are produced by Tesla?
+9.(Galileo, known as, Father of Modern Astronomy)<SEP>What is Galileo known as?<SEP>Which historical figures are known as the Father of Modern Astronomy?
+10.(Nelson Mandela, first president of, South Africa)<SEP>Which country was Nelson Mandela the first president of?<SEP>Who were the first presidents of South Africa?
+11.(Mount Kilimanjaro, located in, Tanzania)<SEP>Where is Mount Kilimanjaro located?<SEP>What mountains or regions are located in Tanzania?
+12.(Alexander Graham Bell, invented, Telephone)<SEP>What did Alexander Graham Bell invent?<SEP>Who invented the telephone?
+{/demonstrations}
+### Your Turn
+Input:
+
+[/INST]
+

@@ -1,0 +1,161 @@
+[INST] <<SYS>>You are a linguist with extensive expertise in ontology knowledge. You have the ability to understand the context of entities, including user queries and the semantic information of triples. Based on the contextual information of an entity, you can accurately and appropriately add ontologies to the entity. Your goal is to bridge the semantic gap between entities and user queries by adding relevant ontologies, thereby semantically augmenting the entities to enable them to better address the user's queries.
+<</SYS>>
+{instruction}
+You are provided with an entity list. Each entity in the list is accompanied by its context information, which consists of two parts:
+1.Relevant triples associated with the entity.
+2.Relevant user queries associated with the entity.
+The context format for each entity is as follows:
+[$entity$ context]
+relavent triple(s):triple1-triple2-triple3-...
+relavent user query(ies):query1-query2-query3-...
+[/$entity$ context]
+Your task is to analyze the context information of each entity, apply your expert knowledge, and assign an appropriate ontology to the entity. The added ontology should:
+1.Be semantically consistent with the entity's context information.
+2.Avoid any contradictions or irrelevance with the given context.
+3.Enhance the entity's ability to better answer the user query(ies) in its context.
+Store the ontology assignments in a set called {result}. The {result} set is initially empty. Each ontology assignment should follow the format:
+{result}
+(entity,ontology_relation,newly added ontology)
+...
+{/result}
+You must choose an appropriate ontology relation from the options provided below.
+{ontology relation definition}
+HYP: Hypernym relation
+Refers to the relation where a broader or more general concept includes or encompasses a more specific or specialized concept.
+Hypernym_isA
+Is a type of...
+Hypernym_locateAt
+Is located at...
+Hypernym_mannerOf 
+A is a specific implementation or way of B. Similar to "isA," but used for verbs. For example, "auction" -> "sale"
+IND: Induction relation
+Refers to the relation between individual entities and conceptual generalizations derived from a class of entities with common characteristics. 
+Induction_belongTo
+This relation is commonly used in SPG to describe the classification relation from entity types to concept types. For example, "company event" -> "company event category".
+INC: Inclusion relation
+Expresses the relation between parts and the whole. 
+Inclusion_isPartOf
+A is a part of B.
+Inclusion_madeOf
+A is made up of B. For example, "bottle" -> "plastic". 
+Inclusion_derivedFrom
+A is derived from or originated from B, used to express composite concepts.
+Inclusion_hasContext
+A is a word used in the context of B, where B can be a subject area, technical field, or regional dialect. For example, "astern" -> "ship".
+{/ontology relation definition}
+You can only choose an appropriate {ontology_relation} from {Hypernym_isA, Hypernym_locateAt, Hypernym_mannerOf, Induction_belongTo, Inclusion_isPartOf, Inclusion_madeOf, Inclusion_derivedFrom, Inclusion_hasContext}.
+Your task will follow the four steps below:
+{Procedure}
+step 1:
+For the first $entity$ in the entity list, read its context information carefully. Based on the provided context and your expert knowledge, answer the following question:
+Does this $entity$ already have an ontology assigned?
+If yes, proceed to Step 2.
+If no, move to Step 3.
+step 2:
+Using the entity's context information and your expert knowledge:
+Identify a list of appropriate ontologies for the entity.
+For each ontology in this list, select the most suitable ontology relation from the {ontology_relation} options.
+Format each assignment as (entity, ontology_relation, newly added ontology) and add it to the {result} set.
+Remove this $entity$ and its corresponding context information from the entity list.
+Output the current {result} set in the following format:
+{result}
+...
+{/result}
+Then move to Step 3.
+step 3:
+Check if the entity list is now empty:
+If the list is empty, proceed to Step 4.
+If the list is not empty, return to Step 1 and repeat the process for the next $entity$.
+step 4:
+Once all entities have been processed, output the final {result} set containing all (entity, ontology_relation, newly added ontology) assignments in the following format:
+{result}
+(entity,ontology_relation,newly added ontology)
+...
+{/result}
+{/Procedure}
+I will provide examples, please complete your task after reviewing them.
+{/instruction}
+{demonstrations}
+### Example 1:
+Input:
+entity List:
+[$Michelle Bachelet$ context]
+relavent triple(s):(Michelle Bachelet,people.person.nationality,Chile)
+relavent user query(ies):What is the location that appointed Michelle Bachelet to a governmental position?-Who is Michelle Bachelet?-What governmental position was Michelle Bachelet appointed to?-Where was Michelle Bachelet appointed to this position?
+[/$Michelle Bachelet$ context]
+[$Chile$ context]
+relavent triple(s):(Michelle Bachelet,people.person.nationality,Chile)-(Chile,language.human_language.countries_spoken_in,Spanish Language)
+relavent user query(ies):What is the location that appointed Michelle Bachelet to a governmental position?-Who is Michelle Bachelet?-What governmental position was Michelle Bachelet appointed to?-Where was Michelle Bachelet appointed to this position?-What language is spoken in this location?
+[/$Chile$ context]
+Output:
+{result}
+(Michelle Bachelet, Hypernym_isA, Political Figure)
+(Michelle Bachelet, Hypernym_isA, President)
+(Chile, Hypernym_isA, Country)
+(Chile, Hypernym_locateAt, South America)
+(Chile, Inclusion_hasContext, Spanish Language)
+{/result}
+### Example 2:
+Input:
+entity List:
+[$Ovadia Yosef$ context]
+relavent triple(s):(Ovadia Yosef, people.person.religion, Judaism)-(Ovadia Yosef, people.person.nationality, Israel)
+relavent user query(ies):Who is Ovadia Yosef?-Did Ovadia Yosef hold a leadership role in a religion?-What religion is associated with Ovadia Yosef?-Is there a predominant religion associated with Ovadia Yosef?-What is the name of this religion?
+[/$Ovadia Yosef$ context]
+[$Judaism$ context]
+relavent triple(s):(Ovadia Yosef, people.person.religion, Judaism)
+relavent user query(ies):Who is Ovadia Yosef?-Did Ovadia Yosef hold a leadership role in a religion?-What religion is associated with Ovadia Yosef?-Is there a predominant religion associated with Ovadia Yosef?-What is the name of this religion?
+[/$Judaism$ context]
+[$Israel$ context]
+relavent triple(s):(Ovadia Yosef, people.person.nationality, Israel)
+relavent user query(ies):Who is Ovadia Yosef?
+[/$Israel$ context]
+Output:
+{result}
+(Ovadia Yosef, Hypernym_isA, Religious Leader)
+(Ovadia Yosef, Induction_belongTo, Jewish Religious Leaders)
+(Judaism, Hypernym_isA, Religion)
+(Judaism, Inclusion_hasContext, Jewish Culture)
+(Israel, Hypernym_isA, Country)
+(Israel, Hypernym_locateAt, Middle East)
+{/result}
+### Example 3:
+Input:
+entity List:
+[$1931 World Series$ context]
+relavent triple(s):(1931 World Series, sports.sports_team.championships, St. Louis Cardinals)
+relavent user query(ies):Who was the champion of the 1931 World Series Championship?-Who won the World Series in 1931?
+[/$1931 World Series$ context]
+[$St. Louis Cardinals$ context]
+relavent triple(s):(1931 World Series, sports.sports_team.championships, St. Louis Cardinals)-(St. Louis Cardinals, plays at, Busch Stadium)-(St. Louis Cardinals, has arena, Busch Stadium)-(St. Louis Cardinals, sports.sports_team.arena_stadium, Busch Stadium)-(St. Louis Cardinals, sports.sports_team.arena_stadium, Roger Dean Stadium)-(St. Louis Cardinals, home ground of, Busch Stadium)-(St. Louis Cardinals, home ground of, Roger Dean Stadium)
+relavent user query(ies):Who was the champion of the 1931 World Series Championship?-Who won the World Series in 1931?-Where does this champion team play?-Where does this champion team play?-What is the name of the stadium associated with this team?-What is the name of the stadium associated with this team?-Was this stadium their home stadium in 1931?-Was this stadium their home stadium in 1931?-Was this stadium their home stadium in 1931?
+[/$St. Louis Cardinals$ context]
+[$Busch Stadium$ context]
+relavent triple(s):(St. Louis Cardinals, plays at, Busch Stadium)-(St. Louis Cardinals, has arena, Busch Stadium)-(St. Louis Cardinals, sports.sports_team.arena_stadium, Busch Stadium)-(St. Louis Cardinals, home ground of, Busch Stadium)
+relavent user query(ies):Where does this champion team play?-Where does this champion team play?-What is the name of the stadium associated with this team?-Was this stadium their home stadium in 1931?
+[/$Busch Stadium$ context]
+[$Roger Dean Stadium$ context]
+relavent triple(s):(St. Louis Cardinals, sports.sports_team.arena_stadium, Roger Dean Stadium)-(St. Louis Cardinals, home ground of, Roger Dean Stadium)
+relavent user query(ies):Was this stadium their home stadium in 1931?-Was this stadium their home stadium in 1931?
+[/$Roger Dean Stadium$ context]
+Output:
+{result}
+(1931 World Series, Hypernym_isA, Sports Championship)
+(1931 World Series, Induction_belongTo, Baseball Championships)
+(St. Louis Cardinals, Hypernym_isA, Baseball Team)
+(St. Louis Cardinals, Hypernym_locateAt, United States)
+(St. Louis Cardinals, Inclusion_isPartOf, Major League Baseball)
+(Busch Stadium, Hypernym_isA, Sports Arena)
+(Busch Stadium, Induction_belongTo, Baseball Stadiums)
+(Roger Dean Stadium, Hypernym_isA, Sports Arena)
+(Roger Dean Stadium, Induction_belongTo, Baseball Stadiums)
+{/result}
+{/demonstrations}
+### Your Turn
+Input:
+entity List:
+[$entity$ context]
+relavent triple(s):
+relavent user query(ies):
+[/$entity$ context]
+[/INST]

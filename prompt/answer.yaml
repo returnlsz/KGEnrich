@@ -1,0 +1,159 @@
+What language is spoken in the location that appointed Michelle Bachelet to a governmental position?
+["Aymara language", "Mapudungun Language", "Rapa Nui Language", "Spanish Language", "Puquina Language"]
+Lou Seal is the mascot for the team that last won the World Series when? 
+["2014 World Series"]
+What educational institution has a football sports team named Northern Colorado Bears is in Greeley, Colorado?
+["University of Northern Colorado"]
+What is the predominant religion where the leader is Ovadia Yosef? 
+["Judaism"]
+What country bordering France contains an airport that serves Nijmegen?
+["Germany"]
+What stadium does the champion of the 1931 World Series Championship play at?
+["Busch Stadium"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Example 5:
+Input:
+user unit queries:
+-Which countries border France?
+--What countries share a border with France geographically?
+--What is the list of these countries?
+-Which of these countries contains an airport that serves Nijmegen?
+--Where is Nijmegen located?
+--Which airports serve Nijmegen?
+--Are any of these airports located in a country bordering France?
+--What is the name of this country?
+triple unit queries:
+(France,olympics.olympic_participating_country.olympics_participated_in,2002 Winter Olympics)
+(2002 Winter Olympics,olympics.olympic_participating_country.olympics_participated_in,France)
+(2002 Winter Olympics,olympics.olympic_participating_country.olympics_participated_in,Netherlands)
+(2002 Winter Olympics,olympics.olympic_participating_country.olympics_participated_in,United Kingdom)
+(France,olympics.olympic_participating_country.olympics_participated_in,1900 Summer Olympics)
+(1900 Summer Olympics,olympics.olympic_participating_country.olympics_participated_in,France)
+(1900 Summer Olympics,olympics.olympic_participating_country.olympics_participated_in,United Kingdom)
+(1900 Summer Olympics,olympics.olympic_participating_country.olympics_participated_in,Germany)
+(1900 Summer Olympics,olympics.olympic_participating_country.olympics_participated_in,Belgium)
+(France,olympics.olympic_participating_country.olympics_participated_in,1948 Winter Olympics)
+(1948 Winter Olympics,olympics.olympic_participating_country.olympics_participated_in,France)
+(1948 Winter Olympics,olympics.olympic_participating_country.olympics_participated_in,Belgium)
+(France,olympics.olympic_participating_country.olympics_participated_in,1936 Summer Olympics)
+(1936 Summer Olympics,olympics.olympic_participating_country.olympics_participated_in,France)
+(1936 Summer Olympics,olympics.olympic_participating_country.olympics_participated_in,Belgium)
+(1936 Summer Olympics,olympics.olympic_participating_country.olympics_participated_in,Germany)
+(1936 Summer Olympics,olympics.olympic_participating_country.olympics_participated_in,Netherlands)
+(France,olympics.olympic_participating_country.olympics_participated_in,2014 Winter Olympics)
+(2014 Winter Olympics,olympics.olympic_participating_country.olympics_participated_in,Netherlands)
+(2014 Winter Olympics,olympics.olympic_participating_country.olympics_participated_in,France)
+(2014 Winter Olympics,olympics.olympic_participating_country.olympics_participated_in,United Kingdom)
+(France,olympics.olympic_participating_country.olympics_participated_in,The London 2012 Summer Olympics)
+(The London 2012 Summer Olympics,olympics.olympic_participating_country.olympics_participated_in,France)
+(The London 2012 Summer Olympics,olympics.olympic_participating_country.olympics_participated_in,Germany)
+(France,olympics.olympic_participating_country.olympics_participated_in,2008 Summer Olympics)
+(2008 Summer Olympics,olympics.olympic_participating_country.olympics_participated_in,France)
+(2008 Summer Olympics,olympics.olympic_participating_country.olympics_participated_in,United Kingdom)
+(2008 Summer Olympics,olympics.olympic_participating_country.olympics_participated_in,Germany)
+(2008 Summer Olympics,olympics.olympic_participating_country.olympics_participated_in,Netherlands)
+(France,olympics.olympic_participating_country.olympics_participated_in,2000 Summer Olympics)
+(2000 Summer Olympics,olympics.olympic_participating_country.olympics_participated_in,France)
+(2002 Winter Olympics,olympics.olympic_games.participating_countries,Germany)
+(2002 Winter Olympics,olympics.olympic_games.participating_countries,Belgium)
+(1900 Summer Olympics,olympics.olympic_games.participating_countries,Netherlands)
+(1948 Winter Olympics,olympics.olympic_games.participating_countries,Netherlands)
+(1948 Winter Olympics,olympics.olympic_games.participating_countries,United Kingdom)
+(1936 Summer Olympics,olympics.olympic_games.participating_countries,United Kingdom)
+(2014 Winter Olympics,olympics.olympic_games.participating_countries,Germany)
+(2014 Winter Olympics,olympics.olympic_games.participating_countries,Belgium)
+(The London 2012 Summer Olympics,olympics.olympic_games.participating_countries,United Kingdom)
+(2000 Summer Olympics,olympics.olympic_games.participating_countries,United Kingdom)
+(France,biology.breed_origin.breeds_originating_here,Chartreux)
+(Chartreux,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Bresse chicken)
+(Bresse chicken,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Basset Fauve de Bretagne)
+(Basset Fauve de Bretagne,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Pont-Audemer Spaniel)
+(Pont-Audemer Spaniel,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Braque Francais)
+(Braque Francais,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Grand Bleu de Gascogne)
+(Grand Bleu de Gascogne,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Phalène)
+(Phalène,biology.breed_origin.breeds_originating_here,France)
+(Phalène,biology.breed_origin.breeds_originating_here,Belgium)
+(France,biology.breed_origin.breeds_originating_here,Ariegeois)
+(Ariegeois,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Picardy Spaniel)
+(Picardy Spaniel,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Percheron)
+(Percheron,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Affenpinscher)
+(Affenpinscher,biology.breed_origin.breeds_originating_here,France)
+(Affenpinscher,biology.breed_origin.breeds_originating_here,Germany)
+(France,biology.breed_origin.breeds_originating_here,Ariege Pointer)
+(Ariege Pointer,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Lagotto Romagnolo)
+(Lagotto Romagnolo,biology.breed_origin.breeds_originating_here,France)
+(Lagotto Romagnolo,biology.breed_origin.breeds_originating_here,Belgium)
+(France,biology.breed_origin.breeds_originating_here,Petit Bleu de Gascogne)
+(Petit Bleu de Gascogne,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,g.1229cydf)
+(g.1229cydf,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Rouen duck)
+(Rouen duck,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Barbet)
+(Barbet,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Great Pyrenees)
+(Great Pyrenees,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Norman Cob)
+(Norman Cob,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Bloodhound)
+(Bloodhound,biology.breed_origin.breeds_originating_here,France)
+(Bloodhound,biology.breed_origin.breeds_originating_here,Belgium)
+(France,biology.breed_origin.breeds_originating_here,Crèvecœur chicken)
+(Crèvecœur chicken,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Porcelaine)
+(Porcelaine,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Pyrenean Shepherd)
+(Pyrenean Shepherd,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Poodle)
+(Poodle,biology.breed_origin.breeds_originating_here,Germany)
+(Poodle,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Bichon Frise)
+(Bichon Frise,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Chien Français Blanc et Noir)
+(Chien Français Blanc et Noir,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,French Brittany)
+(French Brittany,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Briquet Griffon Vendéen)
+(Briquet Griffon Vendéen,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Wirehaired Pointing Griffon)
+(Wirehaired Pointing Griffon,biology.breed_origin.breeds_originating_here,France)
+(Wirehaired Pointing Griffon,biology.breed_origin.breeds_originating_here,Germany)
+(France,biology.breed_origin.breeds_originating_here,Blue Picardy Spaniel)
+(Blue Picardy Spaniel,biology.breed_origin.breeds_originating_here,France)
+(France,biology.breed_origin.breeds_originating_here,Basset Hound)
+(Basset Hound,biology.breed_origin.breeds_originating_here,France)
+output:
+{thought}
+step 1:
+Let’s first identify the triple unit queries. This will help us find the triple unit queries related to each user unit query later. Below are the triple unit queries:
+
+step 2:
+Let’s analyze each user unit query and find the related triple unit queries.
+step 3:
+In Step 2, we obtained the triple unit queries related to each user unit query, along with their corresponding triples. We will organize them in the output format of triple-user unit queries.
+{/thought}
+Final output:

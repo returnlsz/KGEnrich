@@ -1,0 +1,149 @@
+[INST] <<SYS>>You are a linguist capable of understanding user queries and the semantic information contained in triples. You can enhance the semantic information of triples based on the principles of similarity, symmetry, and transitivity, bridging the semantic gap between the triples and the user queries. Your goal is to augment the triples semantically so they can better address the user’s queries.
+<</SYS>>
+{instruction}
+You are given a subgraph that consists of multiple triples, where each triple corresponds to one or more user queries. The format is as follows:
+triple(entity1, relation, entity2) - query1 - query2 - query3 - ...
+Here, a query represents a question from the user. The triple associated with a query may contain information relevant to answering the question. However, the semantic connections both within and between triples are typically weak, lacking dense links to clearly establish relationships between entities. As a result, answers to the queries are often implicit and require complex reasoning. To bridge the semantic gap between the queries and the triples, please perform semantic enhancement on the subgraph by considering the user queries.
+Specifically, you will utilize the following properties for semantic enhancement: Similarity, Symmetry, and Transitivity. Below, you will find detailed explanations of these properties along with examples. Please keep these principles in mind as you perform semantic enhancement.
+{Similarity}
+The property of similarity indicates that for a given triple (e1, r1, e2), we can find an alternative relationship r2 that is semantically different from r1 but shares the same directional connection between e1 and e2. In other words, the entities e1 and e2 remain connected in the same direction, but the meaning of the connection changes to reflect the semantics of r2. For example:
+If (e1, r1, e2) exists, then (e1, r2, e2) may also exist, where r1 ≠ r2, and r1 and r2 represent different relationships.
+{/Similarity}
+{Symmetry}
+The property of symmetry indicates that for a given triple (e1, r1, e2), there exists a new relationship r2 that is semantically different from r1 and reverses the direction of the connection between e1 and e2. In other words, the new triple swaps the roles of e1 and e2 while preserving their semantic relationship in a reversed form. For example:
+If (e1, r1, e2) exists, then (e2, r2, e1) may also exist, where r1 ≠ r2, and r1 and r2 represent different relationships.
+{/Symmetry}
+{Transitivity}
+The property of transitivity indicates that when two triples share a common entity, we can combine their relationships into a new relationship that connects the remaining two entities directly. Specifically, if (e1, r1, e2) and (e2, r2, e3) exist, then there exists a new relationship r3 that semantically encompasses both r1 and r2, forming a new triple (e1, r3, e3). The new relationship r3 captures the combined semantics of r1 and r2. For example:
+Given (e1, r1, e2) and (e2, r2, e3), we derive (e1, r3, e3), where r3 combines the meanings of r1 and r2.
+{/Transitivity}
+Your task will follow the four steps below:
+{Procedure}
+Step 1:
+Examine the given triples and their associated queries. Understand the information contained within the triples and the questions being asked in the queries.
+Step 2:
+Using the similarity and symmetry properties, perform semantic enhancement on the given 1-hop subgraph (i.e., triples where connections involve only directly linked entities).
+Step 3:
+Using the transitivity property, perform semantic enhancement on the given multi-hop subgraph (i.e., triples where connections involve intermediary entities).
+Step 4:
+Output the newly generated triples resulting from the semantic enhancement process.
+{/Procedure}
+I will provide examples, please complete your task after reviewing them.
+{/instruction}
+{demonstrations}
+### Example 1:
+Input:
+(Michelle Bachelet,people.person.nationality,Chile)-What is the location that appointed Michelle Bachelet to a governmental position?-Who is Michelle Bachelet?-What governmental position was Michelle Bachelet appointed to?-Where was Michelle Bachelet appointed to this position?
+(Chile,language.human_language.countries_spoken_in,Spanish Language)-What language is spoken in this location?
+1-hop:
+(Michelle Bachelet,people.person.nationality,Chile)
+2-hop:
+(Michelle Bachelet,people.person.nationality,Chile)->(Chile,language.human_language.countries_spoken_in,Spanish Language)
+Output:
+{thought}
+step 1:
+To prepare for the subsequent semantic enhancement of the triples and bridge the semantic gap between the triples and the user queries, let me review the triples along with their corresponding user query(ies):
+(Michelle Bachelet,people.person.nationality,Chile)-What is the location that appointed Michelle Bachelet to a governmental position?-Who is Michelle Bachelet?-What governmental position was Michelle Bachelet appointed to?-Where was Michelle Bachelet appointed to this position?
+(Chile,language.human_language.countries_spoken_in,Spanish Language)-What language is spoken in this location?
+step 2:
+Using the similarity property, perform semantic enhancement on the given 1-hop subgraph:
+For the 1-hop subgraph (Michelle Bachelet,people.person.nationality,Chile),the related queries are "What is the location that appointed Michelle Bachelet to a governmental position?" , "Who is Michelle Bachelet?" , "What governmental position was Michelle Bachelet appointed to?" , "Where was Michelle Bachelet appointed to this position?" .Combining these queries, The newly added  triple(s) is/are (Michelle Bachelet,appointed_government_position_in,Chile)
+Using the symmetry properties, perform semantic enhancement on the given 1-hop subgraph:
+For the 1-hop subgraph (Michelle Bachelet,people.person.nationality,Chile),the related queries are "What is the location that appointed Michelle Bachelet to a governmental position?" , "Who is Michelle Bachelet?" , "What governmental position was Michelle Bachelet appointed to?" , "Where was Michelle Bachelet appointed to this position?" .Combining these queries, The newly added  triple(s) is/are (Chile, appointed_as_government_official_by, Michelle Bachelet)
+step 3:
+Using the transitivity properties, perform semantic enhancement on the given 2-hop subgraph:
+For the 2-hop subgraph (Michelle Bachelet,people.person.nationality,Chile)->(Chile,language.human_language.countries_spoken_in,Spanish Language),the related queries are "What is the location that appointed Michelle Bachelet to a governmental position?" , "Who is Michelle Bachelet?" , "What governmental position was Michelle Bachelet appointed to?" , "Where was Michelle Bachelet appointed to this position?" , What language is spoken in this location?. Combining these queries, The newly added  triple(s) is/are (Michelle Bachelet, language_of_the_country_where_appointed ,Spanish Language)
+step 4:
+Final output:
+(Michelle Bachelet,appointed_government_position_in,Chile)
+(Chile, appointed_as_government_official_by, Michelle Bachelet)
+(Michelle Bachelet, language_of_the_country_where_appointed ,Spanish Language)
+{/thought}
+### Example 2:
+Input:
+(Lou Seal,sports.mascot.team,San Francisco Giants)-What team has Lou Seal as its mascot?-Which team is associated with Lou Seal as its mascot?
+(San Francisco Giants,sports.sports_championship_event.champion,2014 World Series)-When did this team last win the World Series?-What year or time frame did this team last win the World Series?
+(San Francisco Giants,sports.sports_team.championships,2012 World Series)-When did this team last win the World Series?-What year or time frame did this team last win the World Series?
+1-hop:
+(Lou Seal,sports.mascot.team,San Francisco Giants)
+2-hop:
+(Lou Seal,sports.mascot.team,San Francisco Giants)->(San Francisco Giants,sports.sports_championship_event.champion,2014 World Series)
+(Lou Seal,sports.mascot.team,San Francisco Giants)->(San Francisco Giants,sports.sports_team.championships,2012 World Series)
+Output:
+{thought}
+step 1:
+To prepare for the subsequent semantic enhancement of the triples and bridge the semantic gap between the triples and the user queries, let me review the triples along with their corresponding user query(ies):
+(Lou Seal,sports.mascot.team,San Francisco Giants)-What team has Lou Seal as its mascot?-Which team is associated with Lou Seal as its mascot?
+(San Francisco Giants,sports.sports_championship_event.champion,2014 World Series)-When did this team last win the World Series?-What year or time frame did this team last win the World Series?
+(San Francisco Giants,sports.sports_team.championships,2012 World Series)-When did this team last win the World Series?-What year or time frame did this team last win the World Series?
+step 2:
+Using the similarity property, perform semantic enhancement on the given 1-hop subgraph:
+For the 1-hop subgraph (Lou Seal,sports.mascot.team,San Francisco Giants),the related queries are "What team has Lou Seal as its mascot?" , "Which team is associated with Lou Seal as its mascot?" . Combining these queries, The newly added  triple(s) is/are (Lou Seal,associated_with_team,San Francisco Giants)
+Using the symmetry properties, perform semantic enhancement on the given 1-hop subgraph:
+For the 1-hop subgraph (Lou Seal,sports.mascot.team,San Francisco Giants),the related queries are "What team has Lou Seal as its mascot?" , "Which team is associated with Lou Seal as its mascot?" . Combining these queries, The newly added  triple(s) is/are (San Francisco Giants,has_mascot,Lou Seal)
+step 3:
+Using the transitivity properties, perform semantic enhancement on the given 2-hop subgraph:
+For the 2-hop subgraph (Lou Seal,sports.mascot.team,San Francisco Giants)->(San Francisco Giants,sports.sports_championship_event.champion,2014 World Series),the related queries are "What team has Lou Seal as its mascot?" and "Which team is associated with Lou Seal as its mascot?" , "When did this team last win the World Series?" , "What year or time frame did this team last win the World Series?" . Combining these queries, The newly added  triple(s) is/are (Lou Seal,mascot_of_team_that_last_won,2014 World Series)
+For the 2-hop subgraph (Lou Seal,sports.mascot.team,San Francisco Giants)->(San Francisco Giants,sports.sports_team.championships,2012 World Series),the related queries are "What team has Lou Seal as its mascot?" and "Which team is associated with Lou Seal as its mascot?" , "When did this team last win the World Series?" , "What year or time frame did this team last win the World Series?" . Combining these queries, The newly added  triple(s) is/are (Lou Seal,mascot_of_team_that_won,2012 World Series)
+step 4:
+Final output:
+(Lou Seal,associated_with_team,San Francisco Giants)
+(San Francisco Giants,has_mascot,Lou Seal)
+(Lou Seal,mascot_of_team_that_last_won,2014 World Series)
+(Lou Seal,mascot_of_team_that_won,2012 World Series)
+{/thought}
+### Example 3:
+Input:
+(1931 World Series, sports.sports_team.championships, St. Louis Cardinals)-Who was the champion of the 1931 World Series Championship?-Who won the World Series in 1931?
+(St. Louis Cardinals, plays at, Busch Stadium)-Where does this champion team play?
+(St. Louis Cardinals, has arena, Busch Stadium)-Where does this champion team play?-What is the name of the stadium associated with this team?
+(St. Louis Cardinals, sports.sports_team.arena_stadium, Busch Stadium)-What is the name of the stadium associated with this team?
+(St. Louis Cardinals, sports.sports_team.arena_stadium, Roger Dean Stadium)-Was this stadium their home stadium in 1931?
+(St. Louis Cardinals, home ground of, Busch Stadium)-Was this stadium their home stadium in 1931?
+(St. Louis Cardinals, home ground of, Roger Dean Stadium)-Was this stadium their home stadium in 1931?
+1-hop:
+(1931 World Series, sports.sports_team.championships, St. Louis Cardinals)
+2-hop:
+(1931 World Series, sports.sports_team.championships, St. Louis Cardinals)->(St. Louis Cardinals, plays at, Busch Stadium)
+(1931 World Series, sports.sports_team.championships, St. Louis Cardinals)->(St. Louis Cardinals, has arena, Busch Stadium)
+(1931 World Series, sports.sports_team.championships, St. Louis Cardinals)->(St. Louis Cardinals, sports.sports_team.arena_stadium, Busch Stadium)
+(1931 World Series, sports.sports_team.championships, St. Louis Cardinals)->(St. Louis Cardinals, sports.sports_team.arena_stadium, Roger Dean Stadium)
+(1931 World Series, sports.sports_team.championships, St. Louis Cardinals)->(St. Louis Cardinals, home ground of, Busch Stadium)
+(1931 World Series, sports.sports_team.championships, St. Louis Cardinals)->(St. Louis Cardinals, home ground of, Roger Dean Stadium)
+Output:
+{thought}
+step 1:
+To prepare for the subsequent semantic enhancement of the triples and bridge the semantic gap between the triples and the user queries, let me review the triples along with their corresponding user query(ies):
+(1931 World Series, sports.sports_team.championships, St. Louis Cardinals)-Who was the champion of the 1931 World Series Championship?-Who won the World Series in 1931?
+(St. Louis Cardinals, plays at, Busch Stadium)-Where does this champion team play?
+(St. Louis Cardinals, has arena, Busch Stadium)-Where does this champion team play?-What is the name of the stadium associated with this team?
+(St. Louis Cardinals, sports.sports_team.arena_stadium, Busch Stadium)-What is the name of the stadium associated with this team?
+(St. Louis Cardinals, sports.sports_team.arena_stadium, Roger Dean Stadium)-Was this stadium their home stadium in 1931?
+(St. Louis Cardinals, home ground of, Busch Stadium)-Was this stadium their home stadium in 1931?
+(St. Louis Cardinals, home ground of, Roger Dean Stadium)-Was this stadium their home stadium in 1931?
+step 2:
+Using the similarity property, perform semantic enhancement on the given 1-hop subgraph:
+For the 1-hop subgraph (1931 World Series, sports.sports_team.championships, St. Louis Cardinals),the related queries are "Who was the champion of the 1931 World Series Championship?" and "Who won the World Series in 1931?".Combining these queries, The newly added  triple(s) is/are (1931 World Series, champion_1931_World_Series, St. Louis Cardinals)
+Using the symmetry properties, perform semantic enhancement on the given 1-hop subgraph:
+For the 1-hop subgraph (1931 World Series, sports.sports_team.championships, St. Louis Cardinals),the related queries are "Who was the champion of the 1931 World Series Championship?" and "Who won the World Series in 1931?".Combining these queries, The newly added  triple(s) is/are (St. Louis Cardinals, won_1931_World_Series_as_champion, 1931 World Series)
+step 3:
+Using the transitivity properties, perform semantic enhancement on the given 2-hop subgraph:
+For the 2-hop subgraph (1931 World Series, sports.sports_team.championships, St. Louis Cardinals)->(St. Louis Cardinals, plays at, Busch Stadium),the related queries are "Who was the champion of the 1931 World Series Championship?" and "Who won the World Series in 1931?" and "Where does this champion team play?".Combining these queries, The newly added triple(s) is/are (1931 World Series, champion_team_plays_at, Busch Stadium)
+For the 2-hop subgraph (1931 World Series, sports.sports_team.championships, St. Louis Cardinals)->(St. Louis Cardinals, has arena, Busch Stadium),the related queries are "Who was the champion of the 1931 World Series Championship?" and "Who won the World Series in 1931?" and "Where does this champion team play?" and "What is the name of the stadium associated with this team?".Combining these queries, The newly added triple(s) is/are (1931 World Series, stadium_related_to_champion_team, Busch Stadium)
+For the 2-hop subgraph (1931 World Series, sports.sports_team.championships, St. Louis Cardinals)->(St. Louis Cardinals, sports.sports_team.arena_stadium, Busch Stadium),the related queries are "Who was the champion of the 1931 World Series Championship?" and "Who won the World Series in 1931?" and "What is the name of the stadium associated with this team?".Combining these queries, The newly added triple(s) is/are (1931 World Series, stadium_related_to_champion_team, Busch Stadium)
+For the 2-hop subgraph (1931 World Series, sports.sports_team.championships, St. Louis Cardinals)->(St. Louis Cardinals, sports.sports_team.arena_stadium, Roger Dean Stadium),the related queries are "Who was the champion of the 1931 World Series Championship?" and "Who won the World Series in 1931?" and "Was this stadium their home stadium in 1931?".Combining these queries, The newly added triple(s) is/are (1931 World Series, home_stadium_related_to_champion_team, Roger Dean Stadium)
+For the 2-hop subgraph (1931 World Series, sports.sports_team.championships, St. Louis Cardinals)->(St. Louis Cardinals, home ground of, Busch Stadium),the related queries are "Who was the champion of the 1931 World Series Championship?" and "Who won the World Series in 1931?" and "Was this stadium their home stadium in 1931?".Combining these queries, The newly added triple(s) is/are (1931 World Series, home_stadium_related_to_champion_team, Busch Stadium)
+For the 2-hop subgraph (1931 World Series, sports.sports_team.championships, St. Louis Cardinals)->(St. Louis Cardinals, home ground of, Roger Dean Stadium),the related queries are "Who was the champion of the 1931 World Series Championship?" and "Who won the World Series in 1931?" and "Was this stadium their home stadium in 1931?".Combining these queries, The newly added triple(s) is/are (1931 World Series, home_stadium_related_to_champion_team, Roger Dean Stadium)
+step 4:
+Final output:
+(1931 World Series, champion_1931_World_Series, St. Louis Cardinals)
+(St. Louis Cardinals, won_1931_World_Series_as_champion, 1931 World Series)
+(1931 World Series, champion_team_plays_at, Busch Stadium)
+(1931 World Series, stadium_related_to_champion_team, Busch Stadium)
+(1931 World Series, home_stadium_related_to_champion_team, Roger Dean Stadium)
+(1931 World Series, home_stadium_related_to_champion_team, Busch Stadium)
+{/thought}
+{/demonstrations}
+### Your Turn
+Input:
+[/INST]

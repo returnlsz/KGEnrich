@@ -1,0 +1,186 @@
+[INST] <<SYS>>
+<</SYS>>
+{instruction}
+Given a set of user unit queries, triples, and their corresponding triple unit queries (format: triple<SEP>triple unit query), your task is to identify the related subgraph of triple unit queries for each user unit query and return the triples corresponding to those triple unit queries. A user unit query may be associated with multiple triple unit queries or none at all. For each user unit query, find the relevant triples and output them in the format: user unit query<SEP>triple. If multiple triple unit queries are related, output in the format: user unit query<SEP>triple1<SEP>triple2<SEP>triple3<SEP>..., and if no related triple unit queries exist, output: user unit query<SEP>None. I will provide you with examples, please complete your task after reviewing them.
+{/instruction}
+{demonstrations}
+### Example 1:
+Input:
+user unit queries:
+What is the location that appointed Michelle Bachelet to a governmental position?
+Who is Michelle Bachelet?
+What governmental position was Michelle Bachelet appointed to?
+Where was Michelle Bachelet appointed to this position?
+What language is spoken in this location?
+triple unit queries:
+(Michelle Bachelet,people.person.nationality,Chile)<SEP>What is Michelle Bachelet's nationality?<SEP>Which people have Chilean nationality?
+(Chile,language.human_language.countries_spoken_in,Spanish Language)<SEP>What language is spoken in Chile?<SEP>Which countries speak the Spanish Language?
+Output:
+{thought}
+Let’s analyze each user unit query and find the related triple unit queries.
+For the query "What is the location that appointed Michelle Bachelet to a governmental position?",the related query is "What is Michelle Bachelet's nationality?",and the corresponding triple is (Michelle Bachelet,people.person.nationality,Chile)
+For the query "Who is Michelle Bachelet?",the related query is "What is Michelle Bachelet's nationality?",and the corresponding triple is (Michelle Bachelet,people.person.nationality,Chile)
+For the query "What governmental position was Michelle Bachelet appointed to?",the related query is "What is Michelle Bachelet's nationality?",and the corresponding triple is (Michelle Bachelet,people.person.nationality,Chile)
+For the query "Where was Michelle Bachelet appointed to this position?",the related query is "What is Michelle Bachelet's nationality?",and the corresponding triple is (Michelle Bachelet,people.person.nationality,Chile)
+For the query "What language is spoken in this location?",the related query is "What language is spoken in Chile?" and "Which countries speak the Spanish Language?",and the corresponding triple is (Chile,language.human_language.countries_spoken_in,Spanish Language)
+We obtained the triple unit queries related to each user unit query, along with their corresponding triples. We will organize them in the output format of triple<SEP>user unit queries.
+{/thought}
+Final output:
+What is the location that appointed Michelle Bachelet to a governmental position?<SEP>(Michelle Bachelet,people.person.nationality,Chile)
+Who is Michelle Bachelet?<SEP>(Michelle Bachelet,people.person.nationality,Chile)
+What governmental position was Michelle Bachelet appointed to?<SEP>(Michelle Bachelet,people.person.nationality,Chile)
+Where was Michelle Bachelet appointed to this position?<SEP>(Michelle Bachelet,people.person.nationality,Chile)
+What language is spoken in this location?<SEP>(Chile,language.human_language.countries_spoken_in,Spanish Language)
+### Example 2:
+Input:
+user unit queries:
+What team has Lou Seal as its mascot?
+Who or what is Lou Seal?
+Which team is associated with Lou Seal as its mascot?
+When did this team last win the World Series?
+What is the World Series?
+What year or time frame did this team last win the World Series?
+triple unit queries:
+(Lou Seal,sports.mascot.team,San Francisco Giants)<SEP>Which team has Lou Seal as its mascot?<SEP>Who is the mascot of the San Francisco Giants?
+(San Francisco Giants,sports.sports_championship_event.champion,2014 World Series)<SEP>Which championship event did the San Francisco Giants win?<SEP>Which team was the champion of the 2014 World Series?
+(San Francisco Giants,sports.sports_team.championships,2012 World Series)<SEP>Which championships have the San Francisco Giants won?<SEP>Which team won the 2012 World Series?
+Output:
+{thought}
+Let’s analyze each user unit query and find the related triple unit queries.
+For the query "What team has Lou Seal as its mascot?",the related query is "Which team has Lou Seal as its mascot?",and the corresponding triple is (Lou Seal,sports.mascot.team,San Francisco Giants)
+For the query "Who or what is Lou Seal?",the related query is None,and the corresponding triple is None
+For the query "Which team is associated with Lou Seal as its mascot?",the related query is "Which team has Lou Seal as its mascot?" and "Who is the mascot of the San Francisco Giants?",and the corresponding triple is (Lou Seal,sports.mascot.team,San Francisco Giants)
+For the query "When did this team last win the World Series?",the related query is "Which team was the champion of the 2014 World Series?" and "Which team won the 2012 World Series?",and the corresponding triple is (San Francisco Giants,sports.sports_championship_event.champion,2014 World Series) and (San Francisco Giants,sports.sports_team.championships,2012 World Series)
+For the query "What is the World Series?",the related query is None,and the corresponding triple is None
+For the query "What year or time frame did this team last win the World Series?",the related query is "Which team was the champion of the 2014 World Series?" and "Which team won the 2012 World Series?",and the corresponding triple is (San Francisco Giants,sports.sports_championship_event.champion,2014 World Series) and (San Francisco Giants,sports.sports_team.championships,2012 World Series)
+We obtained the triple unit queries related to each user unit query, along with their corresponding triples. We will organize them in the output format of triple<SEP>user unit queries.
+{/thought}
+Final output:
+What team has Lou Seal as its mascot?<SEP>(Lou Seal,sports.mascot.team,San Francisco Giants)
+Who or what is Lou Seal?<SEP>None
+Which team is associated with Lou Seal as its mascot?<SEP>(Lou Seal,sports.mascot.team,San Francisco Giants)
+When did this team last win the World Series?<SEP>(San Francisco Giants,sports.sports_championship_event.champion,2014 World Series)<SEP>(San Francisco Giants,sports.sports_team.championships,2012 World Series)
+What is the World Series?<SEP>None
+What year or time frame did this team last win the World Series?<SEP>(San Francisco Giants,sports.sports_championship_event.champion,2014 World Series)<SEP>(San Francisco Giants,sports.sports_team.championships,2012 World Series)
+### Example 3:
+Input:
+user unit queries:
+What is the name of the football sports team?
+Is there a football sports team named Northern Colorado Bears?
+What is the name of this team?
+Is the team located in Greeley, Colorado?
+What educational institution is associated with this football team?
+Does this football team belong to a specific educational institution?
+What is the name of this educational institution?
+triple unit queries:
+(Northern Colorado Bears football,education.educational_institution.sports_teams,University of Northern Colorado)<SEP>Which educational institution has the Northern Colorado Bears football team as one of its sports teams?<SEP>Which sports teams belong to the University of Northern Colorado?
+(Greeley, location.location.containedby, Greeley Masonic Temple)<SEP>What locations or landmarks is Greeley a part of?<SEP>Which places or cities are contained by the Greeley Masonic Temple?
+(Greeley, location.location.containedby, Bank of Colorado Arena)<SEP>What locations or landmarks is Greeley a part of?<SEP>Which places or cities are contained by the Bank of Colorado Arena?
+(Greeley, location.location.containedby, United States of America)<SEP>What locations or landmarks is Greeley a part of?<SEP>Which places or cities are located in the United States of America?
+(Greeley, location.location.containedby, Jackson Field)<SEP>What locations or landmarks is Greeley a part of?<SEP>Which places or cities are contained by Jackson Field?
+(Greeley, location.location.containedby, Weld County)<SEP>What locations or landmarks is Greeley a part of?<SEP>Which places or cities are contained by Weld County?
+(Greeley, location.location.containedby, Carmike 5)<SEP>What locations or landmarks is Greeley a part of?<SEP>Which places or cities are contained by Carmike 5?
+(Greeley, location.location.containedby, First Baptist Church)<SEP>What locations or landmarks is Greeley a part of?<SEP>Which places or cities are contained by the First Baptist Church?
+(Greeley, location.location.containedby, Colorado)<SEP>What locations or landmarks is Greeley a part of?<SEP>Which places or cities are located in Colorado?
+Output:
+{thought}
+Let’s analyze each user unit query and find the related triple unit queries.
+For the query "What is the name of the football sports team?",the related query is "Which educational institution has the Northern Colorado Bears football team as one of its sports teams?" and "Which sports teams belong to the University of Northern Colorado?",and the corresponding triple is (Northern Colorado Bears football,education.educational_institution.sports_teams,University of Northern Colorado)
+For the query "Is there a football sports team named Northern Colorado Bears?",the related query is "Which educational institution has the Northern Colorado Bears football team as one of its sports teams?" and "Which sports teams belong to the University of Northern Colorado?",and the corresponding triple is (Northern Colorado Bears football,education.educational_institution.sports_teams,University of Northern Colorado)
+For the query "What is the name of this team?",the related query is "Which educational institution has the Northern Colorado Bears football team as one of its sports teams?",and the corresponding triple is (Northern Colorado Bears football,education.educational_institution.sports_teams,University of Northern Colorado)
+For the query "Is the team located in Greeley, Colorado?",the related query is "Which sports teams belong to the University of Northern Colorado?" and "What locations or landmarks is Greeley a part of?" and "Which places or cities are located in Colorado?",and the corresponding triple is (Northern Colorado Bears football,education.educational_institution.sports_teams,University of Northern Colorado) and (Greeley, location.location.containedby, Colorado)
+For the query "What educational institution is associated with this football team?",the related query is "Which educational institution has the Northern Colorado Bears football team as one of its sports teams?" and "Which sports teams belong to the University of Northern Colorado?",and the corresponding triple is (Northern Colorado Bears football,education.educational_institution.sports_teams,University of Northern Colorado)
+For the query "Does this football team belong to a specific educational institution?",the related query is "Which educational institution has the Northern Colorado Bears football team as one of its sports teams?" and "Which sports teams belong to the University of Northern Colorado?",and the corresponding triple is (Northern Colorado Bears football,education.educational_institution.sports_teams,University of Northern Colorado)
+For the query "What is the name of this educational institution?",the related query is "Which educational institution has the Northern Colorado Bears football team as one of its sports teams?",and the corresponding triple is (Northern Colorado Bears football,education.educational_institution.sports_teams,University of Northern Colorado)
+We obtained the triple unit queries related to each user unit query, along with their corresponding triples. We will organize them in the output format of triple<SEP>user unit queries.
+{/thought}
+Final output:
+What is the name of the football sports team?<SEP>(Northern Colorado Bears football,education.educational_institution.sports_teams,University of Northern Colorado)
+Is there a football sports team named Northern Colorado Bears?<SEP>(Northern Colorado Bears football,education.educational_institution.sports_teams,University of Northern Colorado)
+What is the name of this team?<SEP>(Northern Colorado Bears football,education.educational_institution.sports_teams,University of Northern Colorado)
+Is the team located in Greeley, Colorado?<SEP>(Northern Colorado Bears football,education.educational_institution.sports_teams,University of Northern Colorado)<SEP>(Greeley, location.location.containedby, Colorado)
+What educational institution is associated with this football team?<SEP>(Northern Colorado Bears football,education.educational_institution.sports_teams,University of Northern Colorado)
+Does this football team belong to a specific educational institution?<SEP>(Northern Colorado Bears football,education.educational_institution.sports_teams,University of Northern Colorado)
+What is the name of this educational institution?<SEP>(Northern Colorado Bears football,education.educational_institution.sports_teams,University of Northern Colorado)
+### Example 4:
+Input:
+user unit queries:
+Who is Ovadia Yosef?
+What is Ovadia Yosef known for?
+Did Ovadia Yosef hold a leadership role in a religion?
+What religion is associated with Ovadia Yosef?
+Is there a predominant religion associated with Ovadia Yosef?
+What is the name of this religion?
+triple unit queries:
+(Ovadia Yosef, people.person.religion, Judaism)<SEP>What religion is Ovadia Yosef associated with?<SEP>Who is associated with Judaism?
+(Ovadia Yosef, people.person.religion, Haredi Judaism)<SEP>Who is associated with Haredi Judaism?
+(Ovadia Yosef, people.person.nationality, Israel)<SEP>What is Ovadia Yosef's nationality?<SEP>Who has Israel as their nationality?
+(Israel, location.location.containedby, Tiberias)<SEP>What locations or landmarks are contained within Israel?<SEP>Which countries or regions contain Tiberias?
+(Israel, location.location.containedby, Northern District)<SEP>Which countries or regions contain the Northern District?
+(Israel, location.location.containedby, Atarot Airport)<SEP>Which countries or regions contain Atarot Airport?
+(Israel, location.location.containedby, Tel Aviv District)<SEP>Which countries or regions contain the Tel Aviv District?
+(Israel, location.location.containedby, Safed)<SEP>Which countries or regions contain Safed?
+(Israel, location.location.containedby, Dome of the Rock)<SEP>Which countries or regions contain the Dome of the Rock?
+(Israel, location.location.containedby, Har HaMenuchot)<SEP>Which countries or regions contain Har HaMenuchot?
+(Israel, location.location.containedby, Church of the Holy Sepulchre)<SEP>Which countries or regions contain the Church of the Holy Sepulchre?
+(Israel, location.location.containedby, Porat Yosef Yeshiva)<SEP>Which countries or regions contain Porat Yosef Yeshiva?
+(Israel, location.location.containedby, Mount Herzl)<SEP>Which countries or regions contain Mount Herzl?
+Output:
+{thought}
+Let’s analyze each user unit query and find the related triple unit queries.
+For the query "Who is Ovadia Yosef?",the related query is "What religion is Ovadia Yosef associated with?" and "What is Ovadia Yosef's nationality?",and the corresponding triple is (Ovadia Yosef, people.person.religion, Judaism) and (Ovadia Yosef, people.person.nationality, Israel)
+For the query "What is Ovadia Yosef known for?",the related query is None,and the corresponding triple is None
+For the query "Did Ovadia Yosef hold a leadership role in a religion?",the related query is "What religion is Ovadia Yosef associated with?" and "What is Ovadia Yosef's nationality?",and the corresponding triple is (Ovadia Yosef, people.person.religion, Judaism)
+For the query "What religion is associated with Ovadia Yosef?",the related query is "What religion is Ovadia Yosef associated with?",and the corresponding triple is (Ovadia Yosef, people.person.religion, Judaism)
+For the query "Is there a predominant religion associated with Ovadia Yosef?",the related query is "What religion is Ovadia Yosef associated with?",and the corresponding triple is (Ovadia Yosef, people.person.religion, Judaism)
+For the query "What is the name of this religion?",the related query is "What religion is Ovadia Yosef associated with?",and the corresponding triple is (Ovadia Yosef, people.person.religion, Judaism)
+We obtained the triple unit queries related to each user unit query, along with their corresponding triples. We will organize them in the output format of triple<SEP>user unit queries.
+{/thought}
+Final output:
+Who is Ovadia Yosef?<SEP>(Ovadia Yosef, people.person.religion, Judaism)<SEP>(Ovadia Yosef, people.person.nationality, Israel)
+What is Ovadia Yosef known for?<SEP>None
+Did Ovadia Yosef hold a leadership role in a religion?<SEP>(Ovadia Yosef, people.person.religion, Judaism)
+What religion is associated with Ovadia Yosef?<SEP>(Ovadia Yosef, people.person.religion, Judaism)
+Is there a predominant religion associated with Ovadia Yosef?<SEP>(Ovadia Yosef, people.person.religion, Judaism)
+What is the name of this religion?<SEP>(Ovadia Yosef, people.person.religion, Judaism)
+### Example 5:
+Input:
+user unit queries:
+Who was the champion of the 1931 World Series Championship?
+What is the World Series Championship?
+Who won the World Series in 1931?
+Where does this champion team play?
+What is the name of the stadium associated with this team?
+Was this stadium their home stadium in 1931?
+triple unit queries:
+(1931 World Series, sports.sports_team.championships, St. Louis Cardinals)<SEP>Which team won the 1931 World Series?<SEP>Which championships were won by the St. Louis Cardinals?
+(St. Louis Cardinals, sports.sports_team.arena_stadium, Busch Stadium)<SEP>What stadiums or arenas are associated with the St. Louis Cardinals?<SEP>Which teams play at Busch Stadium?
+(St. Louis Cardinals, sports.sports_team.arena_stadium, Roger Dean Stadium)<SEP>Which teams play at Roger Dean Stadium?<SEP>What is the home ground of the St. Louis Cardinals?
+(St. Louis Cardinals, home ground of, Busch Stadium)<SEP>Which teams have Busch Stadium as their home ground?
+(St. Louis Cardinals, home ground of, Roger Dean Stadium)<SEP>Which teams have Roger Dean Stadium as their home ground?
+(St. Louis Cardinals, plays at, Busch Stadium)<SEP>Where does the St. Louis Cardinals play?<SEP>Which teams play at Busch Stadium?
+(St. Louis Cardinals, plays at, Roger Dean Stadium)<SEP>Which teams play at Roger Dean Stadium?
+(St. Louis Cardinals, has arena, Busch Stadium)<SEP>What arenas or stadiums are associated with the St. Louis Cardinals?<SEP>Which teams are associated with Busch Stadium?
+(St. Louis Cardinals, has arena, Roger Dean Stadium)<SEP>Which teams are associated with Roger Dean Stadium?
+Output:
+{thought}
+Let’s analyze each user unit query and find the related triple unit queries.
+For the query "Who was the champion of the 1931 World Series Championship?",the related query is "Which team won the 1931 World Series?",and the corresponding triple is (1931 World Series, sports.sports_team.championships, St. Louis Cardinals)
+For the query "What is the World Series Championship?",the related query is None,and the corresponding triple is None
+For the query "Who won the World Series in 1931?",the related query is "Which team won the 1931 World Series?",and the corresponding triple is (1931 World Series, sports.sports_team.championships, St. Louis Cardinals)
+For the query "Where does this champion team play?",the related query is "Where does the St. Louis Cardinals play?" and "What stadiums or arenas are associated with the St. Louis Cardinals?",and the corresponding triple is (St. Louis Cardinals, plays at, Busch Stadium) and (St. Louis Cardinals, has arena, Busch Stadium)
+For the query "What is the name of the stadium associated with this team?",the related query is "What stadiums or arenas are associated with the St. Louis Cardinals?" and "What arenas or stadiums are associated with the St. Louis Cardinals?",and the corresponding triple is (St. Louis Cardinals, sports.sports_team.arena_stadium, Busch Stadium) and (St. Louis Cardinals, has arena, Busch Stadium)
+For the query "Was this stadium their home stadium in 1931?",the related query is "What is the home ground of the St. Louis Cardinals?" and "Which teams have Busch Stadium as their home ground?" and "Which teams have Roger Dean Stadium as their home ground?",and the corresponding triple is (St. Louis Cardinals, sports.sports_team.arena_stadium, Roger Dean Stadium) and (St. Louis Cardinals, home ground of, Busch Stadium) and (St. Louis Cardinals, home ground of, Roger Dean Stadium)
+We obtained the triple unit queries related to each user unit query, along with their corresponding triples. We will organize them in the output format of triple<SEP>user unit queries.
+{/thought}
+Final output:
+Who was the champion of the 1931 World Series Championship?<SEP>(1931 World Series, sports.sports_team.championships, St. Louis Cardinals)
+What is the World Series Championship?<SEP>None
+Who won the World Series in 1931?<SEP>(1931 World Series, sports.sports_team.championships, St. Louis Cardinals)
+Where does this champion team play?<SEP>(St. Louis Cardinals, plays at, Busch Stadium)<SEP>(St. Louis Cardinals, has arena, Busch Stadium)
+What is the name of the stadium associated with this team?<SEP>(St. Louis Cardinals, sports.sports_team.arena_stadium, Busch Stadium)<SEP>(St. Louis Cardinals, has arena, Busch Stadium)
+Was this stadium their home stadium in 1931?<SEP>(St. Louis Cardinals, sports.sports_team.arena_stadium, Roger Dean Stadium)<SEP>(St. Louis Cardinals, home ground of, Busch Stadium)<SEP>(St. Louis Cardinals, home ground of, Roger Dean Stadium)
+{/demonstrations}
+### Your Turn
+Input:
+[/INST]
