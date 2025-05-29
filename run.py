@@ -16,7 +16,6 @@ from src.llm.llm_prune import llm_prune
 from src.llm.llm_filter_triples import llm_filter_triples_main
 from src.llm.llm_structural_enrich import llm_structural_enrich_main
 from src.llm.llm_feature_enrich import llm_feature_enrich_main
-from src.gt_exp.llm_filter_gt_triples import llm_filter_gt_triples_main
 from src.llm.llm_prune_recall_v1 import llm_prune_recall_v1
 
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/..")
@@ -36,13 +35,11 @@ def run(args):
         llm_trans_triple_main(args.d,args.llm,args.embedding_model,args.pruning_top_k,args.llm_pruning_top_k,args.resume_path)
     elif task == "filter_triples":
         llm_filter_triples_main(args.d,args.llm,args.resume_path)
-    elif task == "filter_gt_triples":
-        llm_filter_gt_triples_main(args.d,args.llm,args.embedding_model,args.pruning_top_k)
     elif task == "structral_enrich":
         llm_structural_enrich_main(args.d,args.llm,args.resume_path)
     elif task == "feature_enrich":
         llm_feature_enrich_main(args.d,args.llm,args.resume_path)
-    elif task == "structural_enrich_qa" or task == "feature_enrich_qa" or task == "mix_qa" or task == "direct_qa" or task == "gt_qa":
+    elif task == "structural_enrich_qa" or task == "feature_enrich_qa" or task == "mix_qa" or task == "direct_qa":
         llm_qa_main(args.d,args.llm,args.embedding_model,args.pruning_top_k,task,args.llm_pruning_top_k,args.resume_path)
     elif task == "qa_evaluate":
         eval_result_main(args.d,args.cal_f1,args.qa_eval_top_k,args.llm)
@@ -54,7 +51,7 @@ if __name__ == "__main__":
     argparser.add_argument('-d', type=str,help="测试集名称", choices=["cwq","webqsp"],default="cwq")
     argparser.add_argument("--embedding_model",type=str,help="测试集路径",choices=["sentence-transformers"])
     argparser.add_argument("--llm",type=str,help="大模型",choices=["gpt3.5","gpt4o-mini"])
-    argparser.add_argument("--task",type=str,help="执行任务",choices=["initial_pruning","llm_pruning","llm_pruning_three_channels","query_decompose","triple_trans","filter_triples","filter_gt_triples","structral_enrich","feature_enrich","graph_eval","direct_qa","feature_enrich_qa","structural_enrich_qa","mix_qa","gt_qa","qa_evaluate"])
+    argparser.add_argument("--task",type=str,help="执行任务",choices=["initial_pruning","llm_pruning","llm_pruning_three_channels","query_decompose","triple_trans","filter_triples","structral_enrich","feature_enrich","graph_eval","direct_qa","feature_enrich_qa","structural_enrich_qa","mix_qa","qa_evaluate"])
     argparser.add_argument('--eval_top_k',help="取topk个结果进行qa eval",type=int, default=-1)
     argparser.add_argument('--pruning_top_k',help="在initial剪枝的时候取相似度最高的top k个结果",type=int, default=750)
     argparser.add_argument('--llm_pruning_top_k',help="在llm剪枝的时候取相似度最高的top k个结果",type=int, default=100)
